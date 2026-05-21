@@ -154,12 +154,16 @@ const seedDatabase = async () => {
 
     // 2. Create Default Admin Credentials
     console.log('Creating demo admin account...');
+    const adminEmail = process.env.ADMIN_EMAIL || 'vansh@gmail.com';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+    const adminUsername = process.env.ADMIN_USERNAME || 'vansh';
+
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash('admin123', salt);
+    const hashedPassword = await bcrypt.hash(adminPassword, salt);
 
     const demoAdmin = new Admin({
-      username: 'vansh',
-      email: 'vansh@gmail.com',
+      username: adminUsername,
+      email: adminEmail,
       password: hashedPassword
     });
     await demoAdmin.save();
@@ -171,8 +175,8 @@ const seedDatabase = async () => {
     console.log('\n======================================================');
     console.log('✨ DATABASE SEEDING COMPLETED SUCCESSFULLY! ✨');
     console.log('You can now log in using these credentials:');
-    console.log('👉 Corporate Email:  vansh@gmail.com');
-    console.log('👉 Secure Password:   admin123');
+    console.log(`👉 Corporate Email:  ${adminEmail}`);
+    console.log(`👉 Secure Password:   ${adminPassword}`);
     console.log('======================================================');
 
   } catch (error) {

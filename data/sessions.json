@@ -1,1 +1,27 @@
-{}
+{
+  "JPcnQgzMXqlQuoyl3ShOiGDAHN2RUcUs": {
+    "cookie": {
+      "originalMaxAge": 86400000,
+      "expires": "2026-05-22T18:17:35.949Z",
+      "secure": false,
+      "httpOnly": true,
+      "path": "/"
+    },
+    "adminId": "6a0ef61ef2a1f8521563a42b",
+    "adminUsername": "vansh",
+    "adminEmail": "vansh@gmail.com",
+    "redirectTo": "/dashboard"
+  },
+  "O3UqEn0nqNpqzuBtPNDCe3-yxUdUZNWD": {
+    "cookie": {
+      "originalMaxAge": 86400000,
+      "expires": "2026-05-22T18:18:51.199Z",
+      "secure": false,
+      "httpOnly": true,
+      "path": "/"
+    },
+    "adminId": "6a0f43a37f81142651b1bf3b",
+    "adminUsername": "vansh",
+    "adminEmail": "vansh@gmail.com"
+  }
+}

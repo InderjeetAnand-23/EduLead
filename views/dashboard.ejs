@@ -192,7 +192,7 @@
               <div class="text-end">
                 <div class="text-warning small fw-bold mb-1">
                   <i class="bi bi-alarm-fill me-1"></i>
-                  <%= new Date(lead.followUpDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                  <%= (lead.followUpDate && !isNaN(new Date(lead.followUpDate).getTime())) ? new Date(lead.followUpDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Pending' %>
                 </div>
                 <a href="/leads/<%= lead._id %>" class="btn btn-sm btn-outline-info py-0 px-2 small" style="font-size: 0.75rem;">Manage</a>
               </div>
@@ -258,7 +258,7 @@
           legend: {
             position: 'right',
             labels: {
-              color: '#334155',
+              color: '#94A3B8',
               boxWidth: 12,
               padding: 10,
               font: { family: 'Inter', size: 11, weight: '500' }
@@ -274,12 +274,11 @@
     const courseLabels = [];
     const courseCounts = [];
     
-    <% if (courseStats && courseStats.length > 0) { %>
-      <% courseStats.forEach(item => { %>
-        courseLabels.push('<%= item._id %>');
-        courseCounts.push(<%= item.count %>);
-      <% }) %>
-    <% } %>
+    const rawCourseStats = <%- JSON.stringify(courseStats || []) %>;
+    rawCourseStats.forEach(item => {
+      courseLabels.push(item._id || 'Unknown Course');
+      courseCounts.push(item.count || 0);
+    });
 
     new Chart(courseCtx, {
       type: 'bar',
@@ -303,12 +302,12 @@
         },
         scales: {
           x: {
-            grid: { color: '#E2E8F0', drawBorder: false },
+            grid: { color: 'rgba(255, 255, 255, 0.08)', drawBorder: false },
             ticks: { color: '#64748B', font: { family: 'Inter' }, stepSize: 1 }
           },
           y: {
             grid: { display: false, drawBorder: false },
-            ticks: { color: '#0F172A', font: { family: 'Inter', size: 11, weight: '500' } }
+            ticks: { color: '#E2E8F0', font: { family: 'Inter', size: 11, weight: '500' } }
           }
         }
       }

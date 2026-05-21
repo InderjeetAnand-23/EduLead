@@ -13,13 +13,17 @@ const seedJsonDatabase = async () => {
     // 1. Seed Admin if empty
     if (admins.length === 0) {
       console.log('Seeding local JSON database: Creating demo admin...');
+      const adminEmail = process.env.ADMIN_EMAIL || 'vansh@gmail.com';
+      const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+      const adminUsername = process.env.ADMIN_USERNAME || 'vansh';
+
       const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash('admin123', salt);
+      const hashedPassword = await bcrypt.hash(adminPassword, salt);
 
       const demoAdmin = {
         _id: 'admin_demo_1',
-        username: 'admin',
-        email: 'admin@edulead.com',
+        username: adminUsername,
+        email: adminEmail,
         password: hashedPassword,
         createdAt: new Date().toISOString()
       };
@@ -183,8 +187,10 @@ const seedJsonDatabase = async () => {
     }
 
     if (seeded) {
+      const adminEmail = process.env.ADMIN_EMAIL || 'admin@edulead.com';
+      const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
       console.log('✨ Local JSON Database Seeding Completed!');
-      console.log('Use credentials: admin@edulead.com / admin123');
+      console.log(`Use credentials: ${adminEmail} / ${adminPassword}`);
     }
   } catch (err) {
     console.error('Error seeding local JSON database:', err);
