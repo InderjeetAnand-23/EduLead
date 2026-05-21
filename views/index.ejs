@@ -1,0 +1,735 @@
+<%- include('partials/header') %>
+
+<!-- Home Anchor & Hero Section -->
+<section id="home" class="hero-section grid-backdrop-light">
+  <div class="container">
+    <div class="row align-items-center justify-content-between g-5">
+      
+      <!-- Hero Text Context (Left Side) -->
+      <div class="col-lg-6">
+        <div class="badge bg-soft-blue border border-primary mb-3 px-3 py-2 fw-semibold rounded-pill" style="color: #2563EB;">
+          <i class="bi bi-star-fill me-1 text-warning"></i> Global Educational Excellence
+        </div>
+        <h1 class="display-4 fw-extrabold mb-4" style="font-family: 'Outfit', sans-serif; font-weight: 800; line-height: 1.2; color: #0F172A; font-size: 3.25rem;">
+          Shape Your Future with <span style="background: linear-gradient(135deg, #2563EB 0%, #14B8A6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Premium Education</span>
+        </h1>
+        <p class="lead text-muted mb-4" style="line-height: 1.8; font-size: 1.15rem; color: #475569;">
+          Unlock boundless career pathways, state-of-the-art laboratory access, and personalized mentorship. Fill out our simple inquiry form to schedule a one-on-one consultation with our dedicated academic counsellors today.
+        </p>
+        
+        <div class="d-flex flex-wrap gap-3 mb-5">
+          <a href="<%= student ? '/inquiry' : '/student/login' %>" class="btn btn-primary-blue px-4 py-3" style="font-size: 1rem; border-radius: 8px;"><i class="bi bi-pencil-square me-2"></i>Apply Now</a>
+          <a href="#programs" class="btn btn-outline-blue px-4 py-3" style="font-size: 1rem; border-radius: 8px;"><i class="bi bi-book-half me-2"></i>Explore Programs</a>
+        </div>
+      </div>
+
+      <!-- Admissions Support Suite Visual Card (Right Side) -->
+      <div class="col-lg-5">
+        <div class="card premium-light-card p-4 shadow-sm border-0" style="border-radius: 20px;">
+          <div class="mb-4">
+            <span class="badge bg-soft-blue mb-2 px-3 py-2 fw-semibold rounded-pill" style="color: #2563EB; background-color: rgba(37, 99, 235, 0.08) !important;">
+              <i class="bi bi-shield-check me-1"></i> Admissions Support Suite
+            </span>
+            <h3 class="fw-extrabold mb-1" style="font-family: 'Outfit', sans-serif; color: #0F172A; font-size: 1.6rem;">Your Pathway to Success</h3>
+            <p class="text-muted small mb-0">Our structured enrollment system ensures student admissions run seamlessly from profile review to campus onboarding.</p>
+          </div>
+          
+          <div class="d-flex flex-column gap-3">
+            <!-- 1. Admission Guidance -->
+            <div class="p-3 rounded-4 bg-light bg-opacity-50 border border-light d-flex align-items-center gap-3 transition-hover" style="transition: all 0.2s ease; border-radius: 12px;">
+              <div class="rounded-circle bg-soft-blue d-flex align-items-center justify-content-center text-primary-blue" style="width: 48px; height: 48px; flex-shrink: 0; background-color: rgba(37, 99, 235, 0.08); color: #2563EB;">
+                <i class="bi bi-compass fs-5"></i>
+              </div>
+              <div class="flex-grow-1">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 class="fw-bold mb-0" style="color: #0F172A; font-size: 0.95rem;">Admission Guidance</h6>
+                  <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1" style="font-size: 0.7rem;">Free Session</span>
+                </div>
+                <p class="text-muted small mb-0" style="font-size: 0.8rem; line-height: 1.4; color: #64748B !important;">One-on-one expert counseling to choose the perfect program.</p>
+              </div>
+            </div>
+
+            <!-- 2. Document Support -->
+            <div class="p-3 rounded-4 bg-light bg-opacity-50 border border-light d-flex align-items-center gap-3 transition-hover" style="transition: all 0.2s ease; border-radius: 12px;">
+              <div class="rounded-circle bg-soft-blue d-flex align-items-center justify-content-center text-primary-blue" style="width: 48px; height: 48px; flex-shrink: 0; background-color: rgba(37, 99, 235, 0.08); color: #2563EB;">
+                <i class="bi bi-file-earmark-check fs-5"></i>
+              </div>
+              <div class="flex-grow-1">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 class="fw-bold mb-0" style="color: #0F172A; font-size: 0.95rem;">Document Support</h6>
+                  <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-2 py-1" style="font-size: 0.7rem; color: #2563EB !important; background-color: rgba(37, 99, 235, 0.08) !important;">Digital</span>
+                </div>
+                <p class="text-muted small mb-0" style="font-size: 0.8rem; line-height: 1.4; color: #64748B !important; ">Fast digital verification of transcripts and credentials.</p>
+              </div>
+            </div>
+
+            <!-- 3. Application Tracking -->
+            <div class="p-3 rounded-4 bg-light bg-opacity-50 border border-light d-flex align-items-center gap-3 transition-hover" style="transition: all 0.2s ease; border-radius: 12px;">
+              <div class="rounded-circle bg-soft-blue d-flex align-items-center justify-content-center text-primary-blue" style="width: 48px; height: 48px; flex-shrink: 0; background-color: rgba(37, 99, 235, 0.08); color: #2563EB;">
+                <i class="bi bi-clock-history fs-5"></i>
+              </div>
+              <div class="flex-grow-1">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 class="fw-bold mb-0" style="color: #0F172A; font-size: 0.95rem;">Application Tracking</h6>
+                  <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-2 py-1" style="font-size: 0.7rem; color: #b45309 !important; background-color: rgba(245, 158, 11, 0.08) !important;">Real-time</span>
+                </div>
+                <p class="text-muted small mb-0" style="font-size: 0.8rem; line-height: 1.4; color: #64748B !important;">Check your admission pipeline status instantly in our workspace.</p>
+              </div>
+            </div>
+
+            <!-- 4. Counsellor Follow-up -->
+            <div class="p-3 rounded-4 bg-light bg-opacity-50 border border-light d-flex align-items-center gap-3 transition-hover" style="transition: all 0.2s ease; border-radius: 12px;">
+              <div class="rounded-circle bg-soft-blue d-flex align-items-center justify-content-center text-primary-blue" style="width: 48px; height: 48px; flex-shrink: 0; background-color: rgba(37, 99, 235, 0.08); color: #2563EB;">
+                <i class="bi bi-telephone-outbound fs-5"></i>
+              </div>
+              <div class="flex-grow-1">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 class="fw-bold mb-0" style="color: #0F172A; font-size: 0.95rem;">Counsellor Follow-up</h6>
+                  <span class="badge bg-info bg-opacity-10 text-info rounded-pill px-2 py-1" style="font-size: 0.7rem; color: #0891b2 !important; background-color: rgba(6, 182, 212, 0.08) !important;">24h SLA</span>
+                </div>
+                <p class="text-muted small mb-0" style="font-size: 0.8rem; line-height: 1.4; color: #64748B !important;">Receive dedicated callbacks and updates regarding enrollment details.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section: Trust & Statistics Cards (Right below Hero) -->
+<section class="py-5 bg-white border-top border-bottom border-light">
+  <div class="container">
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+        <div class="light-stat-card d-flex align-items-center gap-3">
+          <div class="light-stat-icon-wrapper">
+            <i class="bi bi-globe2 fs-5"></i>
+          </div>
+          <div>
+            <div class="light-stat-number">120+</div>
+            <div class="light-stat-label">Partner Countries</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="light-stat-card d-flex align-items-center gap-3">
+          <div class="light-stat-icon-wrapper" style="background-color: rgba(20, 184, 166, 0.08) !important; color: #14B8A6 !important;">
+            <i class="bi bi-award fs-5"></i>
+          </div>
+          <div>
+            <div class="light-stat-number">50+</div>
+            <div class="light-stat-label">Academic Programs</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="light-stat-card d-flex align-items-center gap-3">
+          <div class="light-stat-icon-wrapper" style="background-color: rgba(139, 92, 246, 0.08) !important; color: #8B5CF6 !important;">
+            <i class="bi bi-people fs-5"></i>
+          </div>
+          <div>
+            <div class="light-stat-number">15,000+</div>
+            <div class="light-stat-label">Student Network</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Explore University Life Section -->
+<section id="university-life" class="section-padding bg-white py-5 border-bottom border-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="badge bg-soft-blue mb-2 px-3 py-2 fw-semibold rounded-pill" style="color: #2563EB; background-color: rgba(37, 99, 235, 0.08) !important;">
+        <i class="bi bi-compass-fill me-1"></i> Campus Culture
+      </span>
+      <h2 class="section-title text-navy fw-extrabold" style="font-family: 'Outfit', sans-serif; color: #0F172A; font-size: 2.25rem; margin-bottom: 8px;">Explore University Life</h2>
+      <p class="section-subtitle-light text-muted" style="max-width: 600px; margin: 8px auto 0 auto; font-size: 1rem;">Take a virtual walkthrough of our world-class infrastructure and dynamic facilities designed to support academic and personal growth.</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- 1. Modern Campus -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card premium-light-card border-0 shadow-sm overflow-hidden h-100" style="border-radius: 16px; background-color: #FFFFFF;">
+          <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Modern Campus" style="height: 220px; object-fit: cover;">
+          <div class="card-body p-4">
+            <h5 class="fw-bold" style="color: #0F172A; font-family: 'Outfit', sans-serif;">Modern Campus</h5>
+            <p class="text-muted small mb-0" style="line-height: 1.6;">A vibrant, eco-friendly campus featuring state-of-the-art architectures, green parks, and lively student plazas.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Smart Classrooms -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card premium-light-card border-0 shadow-sm overflow-hidden h-100" style="border-radius: 16px; background-color: #FFFFFF;">
+          <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Smart Classrooms" style="height: 220px; object-fit: cover;">
+          <div class="card-body p-4">
+            <h5 class="fw-bold" style="color: #0F172A; font-family: 'Outfit', sans-serif;">Smart Classrooms</h5>
+            <p class="text-muted small mb-0" style="line-height: 1.6;">Lecture halls equipped with high-definition digital projectors, interactive boards, and hybrid-learning environments.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Library & Study Spaces -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card premium-light-card border-0 shadow-sm overflow-hidden h-100" style="border-radius: 16px; background-color: #FFFFFF;">
+          <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Library & Study Spaces" style="height: 220px; object-fit: cover;">
+          <div class="card-body p-4">
+            <h5 class="fw-bold" style="color: #0F172A; font-family: 'Outfit', sans-serif;">Library & Study Spaces</h5>
+            <p class="text-muted small mb-0" style="line-height: 1.6;">Quiet reading zones, collaborative discussion chambers, and digital archives with access to millions of global publications.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Computer Labs -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card premium-light-card border-0 shadow-sm overflow-hidden h-100" style="border-radius: 16px; background-color: #FFFFFF;">
+          <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Computer Labs" style="height: 220px; object-fit: cover;">
+          <div class="card-body p-4">
+            <h5 class="fw-bold" style="color: #0F172A; font-family: 'Outfit', sans-serif;">Computer Labs</h5>
+            <p class="text-muted small mb-0" style="line-height: 1.6;">Dedicated computation clusters utilizing high-performance processors, AI sandboxes, and modern software suites.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Hostel Facilities -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card premium-light-card border-0 shadow-sm overflow-hidden h-100" style="border-radius: 16px; background-color: #FFFFFF;">
+          <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Hostel Facilities" style="height: 220px; object-fit: cover;">
+          <div class="card-body p-4">
+            <h5 class="fw-bold" style="color: #0F172A; font-family: 'Outfit', sans-serif;">Hostel Facilities</h5>
+            <p class="text-muted small mb-0" style="line-height: 1.6;">Safe, fully-furnished student residences with secure Wi-Fi, laundry facilities, study lounges, and modern dining halls.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Sports & Activities -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card premium-light-card border-0 shadow-sm overflow-hidden h-100" style="border-radius: 16px; background-color: #FFFFFF;">
+          <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Sports & Activities" style="height: 220px; object-fit: cover;">
+          <div class="card-body p-4">
+            <h5 class="fw-bold" style="color: #0F172A; font-family: 'Outfit', sans-serif;">Sports & Activities</h5>
+            <p class="text-muted small mb-0" style="line-height: 1.6;">Extensive facilities for basketball, football, tennis, athletics, and dynamic club events to foster student wellness.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 1: Popular Programs Showcase -->
+<section id="programs" class="section-padding grid-backdrop-light bg-light">
+  <div class="container">
+    <div class="text-center">
+      <h2 class="section-title">Popular <span style="background: linear-gradient(135deg, #2563EB 0%, #14B8A6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Programs</span></h2>
+      <p class="section-subtitle-light">Choose from our high-demand curriculum designed to fit the modern tech and corporate job market globally.</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- 1. CS -->
+      <div class="col-md-6 col-lg-4">
+        <div class="light-program-card">
+          <span class="light-program-tag">Engineering</span>
+          <div class="light-program-icon">
+            <i class="bi bi-laptop"></i>
+          </div>
+          <h4 class="light-program-title">Computer Science & Engineering</h4>
+          <p class="light-program-description flex-grow-1">Master advanced software development, operating systems, cloud architecture, and full-stack web technologies.</p>
+          <button class="btn btn-outline-blue btn-sm w-100 mt-4 program-inquire-btn" data-program="Computer Science & Engineering" style="border-radius: 8px;">
+            <i class="bi bi-arrow-right-circle me-1"></i> Inquire Now
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. AI & DS -->
+      <div class="col-md-6 col-lg-4">
+        <div class="light-program-card">
+          <span class="light-program-tag" style="color: #14B8A6 !important;">Specialization</span>
+          <div class="light-program-icon" style="background-color: rgba(20, 184, 166, 0.08) !important; color: #14B8A6 !important;">
+            <i class="bi bi-cpu"></i>
+          </div>
+          <h4 class="light-program-title">Data Science & AI</h4>
+          <p class="light-program-description flex-grow-1">Dive deep into machine learning model construction, deep networks, statistical analysis, and big data sandboxes.</p>
+          <button class="btn btn-outline-blue btn-sm w-100 mt-4 program-inquire-btn" data-program="Data Science & AI" style="border-radius: 8px;">
+            <i class="bi bi-arrow-right-circle me-1"></i> Inquire Now
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. MBA -->
+      <div class="col-md-6 col-lg-4">
+        <div class="light-program-card">
+          <span class="light-program-tag" style="color: #8B5CF6 !important;">Management</span>
+          <div class="light-program-icon" style="background-color: rgba(139, 92, 246, 0.08) !important; color: #8B5CF6 !important;">
+            <i class="bi bi-briefcase"></i>
+          </div>
+          <h4 class="light-program-title">Business Administration</h4>
+          <p class="light-program-description flex-grow-1">Develop administrative strategy, financial analytics capabilities, project leadership, and global business practices.</p>
+          <button class="btn btn-outline-blue btn-sm w-100 mt-4 program-inquire-btn" data-program="Business Administration" style="border-radius: 8px;">
+            <i class="bi bi-arrow-right-circle me-1"></i> Inquire Now
+          </button>
+        </div>
+      </div>
+
+      <!-- 4. Biotech -->
+      <div class="col-md-6 col-lg-4">
+        <div class="light-program-card">
+          <span class="light-program-tag" style="color: #8B5CF6 !important;">Research</span>
+          <div class="light-program-icon" style="background-color: rgba(139, 92, 246, 0.08) !important; color: #8B5CF6 !important;">
+            <i class="bi bi-droplet-half"></i>
+          </div>
+          <h4 class="light-program-title">Biotechnology</h4>
+          <p class="light-program-description flex-grow-1">Explore genetic engineering concepts, pharmaceuticals development, laboratory analysis, and bioresearch pipelines.</p>
+          <button class="btn btn-outline-blue btn-sm w-100 mt-4 program-inquire-btn" data-program="Biotechnology" style="border-radius: 8px;">
+            <i class="bi bi-arrow-right-circle me-1"></i> Inquire Now
+          </button>
+        </div>
+      </div>
+
+      <!-- 5. Mechanical -->
+      <div class="col-md-6 col-lg-4">
+        <div class="light-program-card">
+          <span class="light-program-tag" style="color: #14B8A6 !important;">Core</span>
+          <div class="light-program-icon" style="background-color: rgba(20, 184, 166, 0.08) !important; color: #14B8A6 !important;">
+            <i class="bi bi-gear-wide-connected"></i>
+          </div>
+          <h4 class="light-program-title">Mechanical Engineering</h4>
+          <p class="light-program-description flex-grow-1">Engage in computer-aided machinery design, thermodynamics modeling, modern material science, and robotics.</p>
+          <button class="btn btn-outline-blue btn-sm w-100 mt-4 program-inquire-btn" data-program="Mechanical Engineering" style="border-radius: 8px;">
+            <i class="bi bi-arrow-right-circle me-1"></i> Inquire Now
+          </button>
+        </div>
+      </div>
+
+      <!-- 6. IT -->
+      <div class="col-md-6 col-lg-4">
+        <div class="light-program-card">
+          <span class="light-program-tag">Systems</span>
+          <div class="light-program-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <h4 class="light-program-title">Information Technology</h4>
+          <p class="light-program-description flex-grow-1">Learn cyber defense protocols, complex network administration, server architecture, and system engineering.</p>
+          <button class="btn btn-outline-blue btn-sm w-100 mt-4 program-inquire-btn" data-program="Information Technology" style="border-radius: 8px;">
+            <i class="bi bi-arrow-right-circle me-1"></i> Inquire Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: Why Choose Us Grid -->
+<section id="about" class="section-padding bg-white">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="badge bg-soft-blue mb-2 px-3 py-2 fw-semibold rounded-pill" style="color: #2563EB; background-color: rgba(37, 99, 235, 0.08) !important;">
+        <i class="bi bi-award-fill me-1"></i> Our Strengths
+      </span>
+      <h2 class="section-title text-navy fw-extrabold" style="font-family: 'Outfit', sans-serif; color: #0F172A; font-size: 2.25rem; margin-bottom: 8px;">Why Choose Us</h2>
+      <p class="section-subtitle-light text-muted" style="max-width: 600px; margin: 8px auto 0 auto; font-size: 1rem;">We support your educational journey at every step, offering personalized guidance and powerful tracking capabilities.</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- 1. Expert Counsellor Guidance -->
+      <div class="col-md-6 col-lg-3">
+        <div class="light-feature-card text-center h-100">
+          <div class="light-feature-icon-circle mx-auto" style="background-color: rgba(37, 99, 235, 0.08) !important; color: #2563EB !important;">
+            <i class="bi bi-person-badge-fill"></i>
+          </div>
+          <h5 class="fw-bold mb-3" style="color: #0F172A;">Expert Counsellor Guidance</h5>
+          <p class="text-muted small mb-0" style="line-height: 1.6;">Get matched with certified, senior counselors who understand your aspirations and streamline your admissions.</p>
+        </div>
+      </div>
+
+      <!-- 2. Document Support -->
+      <div class="col-md-6 col-lg-3">
+        <div class="light-feature-card text-center h-100">
+          <div class="light-feature-icon-circle mx-auto" style="background-color: rgba(20, 184, 166, 0.08) !important; color: #14B8A6 !important;">
+            <i class="bi bi-file-earmark-check"></i>
+          </div>
+          <h5 class="fw-bold mb-3" style="color: #0F172A;">Document Support</h5>
+          <p class="text-muted small mb-0" style="line-height: 1.6;">Receive secure, end-to-end assistance with digital transcript verification, credentials review, and formatting.</p>
+        </div>
+      </div>
+
+      <!-- 3. Application Tracking -->
+      <div class="col-md-6 col-lg-3">
+        <div class="light-feature-card text-center h-100">
+          <div class="light-feature-icon-circle mx-auto" style="background-color: rgba(139, 92, 246, 0.08) !important; color: #8B5CF6 !important;">
+            <i class="bi bi-send-check"></i>
+          </div>
+          <h5 class="fw-bold mb-3" style="color: #0F172A;">Application Tracking</h5>
+          <p class="text-muted small mb-0" style="line-height: 1.6;">Monitor your entire application journey in real-time through transparent milestones and clear visual status indicators.</p>
+        </div>
+      </div>
+
+      <!-- 4. Follow-up Assistance -->
+      <div class="col-md-6 col-lg-3">
+        <div class="light-feature-card text-center h-100">
+          <div class="light-feature-icon-circle mx-auto" style="background-color: rgba(20, 184, 166, 0.08) !important; color: #14B8A6 !important;">
+            <i class="bi bi-telephone-inbound"></i>
+          </div>
+          <h5 class="fw-bold mb-3" style="color: #0F172A;">Follow-up Assistance</h5>
+          <p class="text-muted small mb-0" style="line-height: 1.6;">Enjoy quick feedback responses, scheduled counsellor callbacks, and dedicated support until your campus registration.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Dedicated Centered Inquiry Capture Section -->
+<section id="inquiry-form-section" class="section-padding bg-light border-bottom border-light py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-xl-7">
+        
+        <!-- Descriptive Section Header -->
+        <div class="text-center mb-5">
+          <span class="badge bg-soft-blue mb-2 px-3 py-2 fw-semibold rounded-pill animate-fade-in" style="color: #2563EB; background-color: rgba(37, 99, 235, 0.08) !important;">
+            <i class="bi bi-send-fill me-1"></i> Quick Application Form
+          </span>
+          <h2 class="fw-extrabold text-navy" style="font-family: 'Outfit', sans-serif; color: #0F172A; font-size: 2.25rem; margin-bottom: 8px;">Start Your Journey Today</h2>
+          <p class="text-muted" style="font-size: 1rem; max-width: 500px; margin: 8px auto 0 auto;">Submit your inquiry details below. A senior academic counsellor will get in touch with you within 24 hours.</p>
+        </div>
+
+        <!-- Premium White Form Card -->
+        <div class="card premium-light-card p-4 p-md-5 border-0 shadow-sm" style="border-radius: 24px; background-color: #FFFFFF;">
+          <form action="/inquire" method="POST">
+            
+            <div class="row g-4 mb-4">
+              <!-- Full Name -->
+              <div class="col-md-6">
+                <label for="fullName" class="form-label">Full Name <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-person"></i></span>
+                  <input type="text" class="form-control" id="fullName" name="fullName" placeholder="e.g. John Doe" required>
+                </div>
+              </div>
+              
+              <!-- Email Address -->
+              <div class="col-md-6">
+                <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="john@example.com" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-4 mb-4">
+              <!-- Phone Number -->
+              <div class="col-md-6">
+                <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                  <input type="tel" class="form-control" id="phone" name="phone" placeholder="+1 (555) 019-9234" required>
+                </div>
+              </div>
+              
+              <!-- Searchable Country Dropdown -->
+              <div class="col-md-6">
+                <label for="country" class="form-label">Country of Residence <span class="text-danger">*</span></label>
+                <div class="country-select-container">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                    <input type="text" 
+                           class="form-control country-search-input" 
+                           id="country" 
+                           name="country" 
+                           placeholder="Search or select country..." 
+                           autocomplete="off" 
+                           required>
+                    <button class="btn btn-outline-secondary dropdown-toggle-btn border-start-0" type="button" tabindex="-1" style="border-color: #CBD5E1;">
+                      <i class="bi bi-chevron-down small"></i>
+                    </button>
+                  </div>
+                  <div class="country-dropdown-list shadow-lg p-2" style="position: absolute; width: 100%; z-index: 1050; display: none;">
+                    <div class="country-no-results text-muted p-2 small" style="display: none;">No matching countries found</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-4 mb-4">
+              <!-- Course of Interest -->
+              <div class="col-md-6">
+                <label for="courseInterested" class="form-label">Course of Interest <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-book"></i></span>
+                  <select class="form-select" id="courseInterested" name="courseInterested" required>
+                    <option value="" disabled selected>Select a program</option>
+                    <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+                    <option value="Data Science & AI">Data Science & AI</option>
+                    <option value="Business Administration">Business Administration</option>
+                    <option value="Biotechnology">Biotechnology</option>
+                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                    <option value="Information Technology">Information Technology</option>
+                  </select>
+                </div>
+              </div>
+              
+              <!-- Highest Educational Qualification -->
+              <div class="col-md-6">
+                <label for="qualification" class="form-label">Highest Qualification</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-mortarboard"></i></span>
+                  <input type="text" class="form-control" id="qualification" name="qualification" placeholder="e.g. High School, Bachelor's">
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-4 mb-4">
+              <!-- Annual Tuition Budget -->
+              <div class="col-12">
+                <label for="budget" class="form-label">Annual Tuition Budget (USD)</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
+                  <input type="text" class="form-control" id="budget" name="budget" placeholder="e.g. $10,000 - $15,000">
+                </div>
+              </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="mb-4">
+              <label for="notes" class="form-label">Additional Consultation Notes</label>
+              <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Tell us more about your career aspirations or scholarship preferences..."></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center pt-2">
+              <button type="submit" class="btn btn-primary-blue px-5 py-3 w-100 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2" style="font-size: 1.05rem; border-radius: 12px; background-color: #2563EB; border-color: #2563EB;">
+                <i class="bi bi-check-circle-fill"></i> Submit Academic Inquiry
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: Horizontal Admissions Journey Stepper -->
+<section class="section-padding grid-backdrop-light bg-light">
+  <div class="container">
+    <div class="text-center">
+      <h2 class="section-title">Your Enrollment <span style="background: linear-gradient(135deg, #2563EB 0%, #14B8A6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Journey Guide</span></h2>
+      <p class="section-subtitle-light">We have simplified and streamlined the admissions path. See how the academic selection pipeline runs.</p>
+    </div>
+
+    <div class="journey-step-container">
+      <div class="journey-step-connector" style="background: linear-gradient(90deg, rgba(37, 99, 235, 0.1) 0%, rgba(37, 99, 235, 0.4) 50%, rgba(37, 99, 235, 0.1) 100%);"></div>
+      <div class="row g-4">
+        <!-- Step 1 -->
+        <div class="col-lg-3 text-center journey-step-card">
+          <div class="light-journey-step-item">1</div>
+          <h5 class="fw-bold mb-2" style="color: #0F172A;">Submit Inquiry</h5>
+          <p class="text-muted small px-3">Fill out our quick, secure online inquiry form listing your course interests.</p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="col-lg-3 text-center journey-step-card">
+          <div class="light-journey-step-item">2</div>
+          <h5 class="fw-bold mb-2" style="color: #0F172A;">Expert Counseling</h5>
+          <p class="text-muted small px-3">A dedicated academic counselor will review your goals and schedule a live guidance session.</p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="col-lg-3 text-center journey-step-card">
+          <div class="light-journey-step-item">3</div>
+          <h5 class="fw-bold mb-2" style="color: #0F172A;">Verify Credentials</h5>
+          <p class="text-muted small px-3">Upload your prior scholastic documents for immediate digital verification by our auditors.</p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="col-lg-3 text-center journey-step-card">
+          <div class="light-journey-step-item">4</div>
+          <h5 class="fw-bold mb-2" style="color: #0F172A;">Onboard Campus</h5>
+          <p class="text-muted small px-3">Receive your official offer letter, complete pending fee clearances, and join the class!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 4: Premium Student Success Testimonials -->
+<section class="section-padding bg-white">
+  <div class="container">
+    <div class="text-center">
+      <h2 class="section-title">Voices of Our <span style="color: #2563EB;">Graduates</span></h2>
+      <p class="section-subtitle-light">Find out how international learners upgraded their careers and secured global employment with EduLead.</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- 1 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="light-testimonial-card shadow-sm">
+          <div class="light-testimonial-quote-icon">“</div>
+          <div>
+            <div class="testimonial-rating">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+            </div>
+            <p class="light-testimonial-text">
+              "EduLead transformed my learning approach. The counseling team matched me to the MBA program, and the placement office helped me secure my management consultancy role at McKinsey."
+            </p>
+          </div>
+          <div class="d-flex align-items-center gap-3 mt-3 border-top border-light pt-3">
+            <div class="avatar-placeholder bg-soft-blue">
+              SJ
+            </div>
+            <div>
+              <h6 class="light-testimonial-author mb-0">Sarah Jenkins</h6>
+              <span class="light-testimonial-role">Alumna, MBA (UK)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="light-testimonial-card shadow-sm">
+          <div class="light-testimonial-quote-icon">“</div>
+          <div>
+            <div class="testimonial-rating">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+            </div>
+            <p class="light-testimonial-text">
+              "The Artificial Intelligence track is outstanding. Studying inside high-performance sandbox labs gave me direct engineering experience. Now, I design deep learning pipelines at Google."
+            </p>
+          </div>
+          <div class="d-flex align-items-center gap-3 mt-3 border-top border-light pt-3">
+            <div class="avatar-placeholder bg-soft-teal">
+              RP
+            </div>
+            <div>
+              <h6 class="light-testimonial-author mb-0">Rajesh Patel</h6>
+              <span class="light-testimonial-role">Alumnus, Data Science & AI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="col-md-6 col-lg-4 d-none d-md-flex">
+        <div class="light-testimonial-card shadow-sm">
+          <div class="light-testimonial-quote-icon">“</div>
+          <div>
+            <div class="testimonial-rating">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+            </div>
+            <p class="light-testimonial-text">
+              "The scholarship coordination and global visa support at EduLead is world-class. Transitioning from Nigeria to Canada was highly streamlined. Highly recommended!"
+            </p>
+          </div>
+          <div class="d-flex align-items-center gap-3 mt-3 border-top border-light pt-3">
+            <div class="avatar-placeholder bg-soft-purple">
+              OO
+            </div>
+            <div>
+              <h6 class="light-testimonial-author mb-0">Obinna Okafor</h6>
+              <span class="light-testimonial-role">Student, Computer Science (Nigeria)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 5: Campus Coordination / Contact Info -->
+<section id="contact" class="section-padding bg-light border-top border-bottom border-light">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <h2 class="fw-bold mb-3" style="color: #0F172A; font-family: 'Outfit', sans-serif;">Connect with our <span style="color: #2563EB;">Admissions Team</span></h2>
+        <p class="text-muted mb-4" style="line-height: 1.7;">
+          Have specific questions about course modules, academic calendars, fee breakdowns, or scholarship availabilities? Our student coordination hotlines are open from Monday to Saturday, 9:00 AM to 6:00 PM. We are here to support your visual learning journey.
+        </p>
+        
+        <div class="d-flex flex-column gap-3">
+          <div class="d-flex align-items-center gap-3">
+            <div class="rounded-circle bg-soft-blue d-flex align-items-center justify-content-center text-primary-blue" style="width: 48px; height: 48px;">
+              <i class="bi bi-envelope fs-5"></i>
+            </div>
+            <div>
+              <h6 class="fw-bold mb-0" style="color: #0F172A;">Email Support</h6>
+              <span class="text-muted">admissions@edulead.edu</span>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <div class="rounded-circle bg-soft-teal d-flex align-items-center justify-content-center text-teal-accent" style="width: 48px; height: 48px; color: #14B8A6;">
+              <i class="bi bi-telephone fs-5"></i>
+            </div>
+            <div>
+              <h6 class="fw-bold mb-0" style="color: #0F172A;">Inquiry Hotline</h6>
+              <span class="text-muted">+1 (800) 555-0199</span>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <div class="rounded-circle bg-soft-purple d-flex align-items-center justify-content-center text-purple" style="width: 48px; height: 48px; color: #8B5CF6;">
+              <i class="bi bi-geo-alt fs-5"></i>
+            </div>
+            <div>
+              <h6 class="fw-bold mb-0" style="color: #0F172A;">Main Campus Location</h6>
+              <span class="text-muted">742 Evergreen Terrace, Springfield, OR</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-6">
+        <div class="premium-light-card p-4 text-center">
+          <div class="mb-4">
+            <i class="bi bi-envelope-check-fill text-primary-blue" style="font-size: 3rem; color: #2563EB;"></i>
+            <h4 class="fw-bold mt-2 mb-1" style="color: #0F172A;">Ready to take the next step?</h4>
+            <p class="text-muted">Submit your profile for review and our counsellors will reach out within 24 hours!</p>
+          </div>
+          <a href="<%= student ? '/inquiry' : '/student/login' %>" class="btn btn-primary-blue px-5 py-3 w-100 fw-bold" style="border-radius: 8px;">
+            <i class="bi bi-pencil-square me-2"></i> Go to Inquiry Form
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Custom Micro-Interaction Script for Program Card clicks -->
+<script>
+  // Whether student is currently logged in (injected by server)
+  const isStudentLoggedIn = <%= student ? 'true' : 'false' %>;
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.program-inquire-btn').forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const selectedProgramName = this.getAttribute('data-program');
+
+        if (!isStudentLoggedIn) {
+          // Not logged in — save destination and go to student login
+          window.location.href = '/student/login';
+          return;
+        }
+
+        // Logged in — go to inquiry page with program pre-selected
+        window.location.href = '/inquiry?program=' + encodeURIComponent(selectedProgramName);
+      });
+    });
+  });
+</script>
+
+<%- include('partials/footer') %>

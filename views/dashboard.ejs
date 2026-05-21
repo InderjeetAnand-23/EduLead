@@ -1,0 +1,319 @@
+<%- include('partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-5">
+  <div>
+    <h2 class="fw-bold mb-1" style="color: #F1F5F9; font-family: 'Outfit', sans-serif; font-size: 1.75rem;">Workspace Analytics</h2>
+    <p style="color: #64748B; margin-bottom: 0; font-size: 0.9rem;">Overview of student admission funnel metrics and scheduled follow-ups.</p>
+  </div>
+  <a href="/leads/add" class="btn btn-gradient d-flex align-items-center gap-2">
+    <i class="bi bi-person-plus-fill"></i>
+    <span>Add Lead Manually</span>
+  </a>
+</div>
+
+<!-- Grid of Key Analytics Cards -->
+<div class="row g-4 mb-5">
+  
+  <!-- 1. Total Leads -->
+  <div class="col-md-4 col-xl-2">
+    <div class="card glass-card h-100 metric-card border-0">
+      <div class="metric-icon bg-opacity-10 bg-info text-info">
+        <i class="bi bi-people-fill"></i>
+      </div>
+      <div class="metric-value text-white"><%= stats.totalLeads %></div>
+      <div class="metric-title">Total Leads</div>
+    </div>
+  </div>
+
+  <!-- 2. New Leads -->
+  <div class="col-md-4 col-xl-2">
+    <div class="card glass-card h-100 metric-card border-0">
+      <div class="metric-icon bg-opacity-10 bg-cyan text-cyan">
+        <i class="bi bi-person-plus"></i>
+      </div>
+      <div class="metric-value text-cyan"><%= stats.newLeads %></div>
+      <div class="metric-title">New Inquiries</div>
+    </div>
+  </div>
+
+  <!-- 3. Contacted -->
+  <div class="col-md-4 col-xl-2">
+    <div class="card glass-card h-100 metric-card border-0">
+      <div class="metric-icon bg-opacity-10 bg-purple text-purple" style="color: #a78bfa !important;">
+        <i class="bi bi-telephone-outbound"></i>
+      </div>
+      <div class="metric-value" style="color: #a78bfa;"><%= stats.contactedLeads %></div>
+      <div class="metric-title">Contacted</div>
+    </div>
+  </div>
+
+  <!-- 4. Applied -->
+  <div class="col-md-4 col-xl-2">
+    <div class="card glass-card h-100 metric-card border-0">
+      <div class="metric-icon bg-opacity-10 bg-primary text-primary" style="color: #60a5fa !important;">
+        <i class="bi bi-file-earmark-text"></i>
+      </div>
+      <div class="metric-value" style="color: #60a5fa;"><%= stats.submittedAppLeads %></div>
+      <div class="metric-title">Apps Submitted</div>
+    </div>
+  </div>
+
+  <!-- 5. Admitted -->
+  <div class="col-md-4 col-xl-2">
+    <div class="card glass-card h-100 metric-card border-0">
+      <div class="metric-icon bg-opacity-10 bg-success text-success">
+        <i class="bi bi-check-circle"></i>
+      </div>
+      <div class="metric-value text-success"><%= stats.admittedLeads %></div>
+      <div class="metric-title">Admitted</div>
+    </div>
+  </div>
+
+  <!-- 6. Pending Follow-Ups -->
+  <div class="col-md-4 col-xl-2">
+    <div class="card glass-card h-100 metric-card border-0">
+      <div class="metric-icon bg-opacity-10 bg-warning text-warning">
+        <i class="bi bi-clock-history"></i>
+      </div>
+      <div class="metric-value text-warning"><%= stats.pendingFollowUps %></div>
+      <div class="metric-title">Active Followups</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Interactive Charting Section -->
+<div class="row g-4 mb-5">
+  
+  <!-- Left Side: Pipeline Status Doughnut -->
+  <div class="col-lg-6">
+    <div class="card glass-card p-4 border-0 h-100 shadow-sm">
+      <h5 class="fw-bold mb-4 d-flex align-items-center gap-2" style="color: #E2E8F0;">
+        <i class="bi bi-pie-chart-fill" style="color: #2563EB;"></i>
+        <span>Admissions Funnel Distribution</span>
+      </h5>
+      <div style="position: relative; height: 280px; width: 100%;">
+        <canvas id="statusChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side: Course Popularity Bar -->
+  <div class="col-lg-6">
+    <div class="card glass-card p-4 border-0 h-100 shadow-sm">
+      <h5 class="fw-bold mb-4 d-flex align-items-center gap-2" style="color: #E2E8F0;">
+        <i class="bi bi-bar-chart-line-fill" style="color: #14B8A6;"></i>
+        <span>Popular Programs Analysis</span>
+      </h5>
+      <div style="position: relative; height: 280px; width: 100%;">
+        <canvas id="courseChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Recent Leads & Scheduled Tasks -->
+<div class="row g-4">
+  
+  <!-- Left Side: Recent Lead Inquiries -->
+  <div class="col-xl-6">
+    <div class="card glass-card p-4 h-100 border-0">
+      <div class="d-flex justify-content-between align-items-center mb-4 pb-3" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+        <h4 class="fw-bold mb-0" style="color: #E2E8F0; font-size: 1.05rem;"><i class="bi bi-chat-left-text me-2" style="color: #2563EB;"></i>Recent Student Inquiries</h4>
+        <a href="/leads" class="btn btn-outline-custom btn-sm py-1 px-3">View All Leads</a>
+      </div>
+      
+      <% if (recentLeads && recentLeads.length > 0) { %>
+        <div class="d-flex flex-column gap-3">
+          <% recentLeads.forEach(lead => { %>
+            <div class="p-3 rounded bg-dark bg-opacity-50 border border-secondary d-flex justify-content-between align-items-center hover-glow" style="transition: border-color 0.2s ease;">
+              <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <h6 class="mb-0 fw-bold"><%= lead.fullName %></h6>
+                  <span class="badge-custom <%= 
+                    lead.status === 'New Inquiry' ? 'badge-new-inquiry' :
+                    lead.status === 'Contacted' ? 'badge-contacted' :
+                    lead.status === 'Interested' ? 'badge-interested' :
+                    lead.status === 'Documents Pending' ? 'badge-documents-pending' :
+                    lead.status === 'Documents Verified' ? 'badge-documents-verified' :
+                    lead.status === 'Application Submitted' ? 'badge-application-submitted' :
+                    lead.status === 'Offer Letter Issued' ? 'badge-offer-letter-issued' :
+                    lead.status === 'Fee Pending' ? 'badge-fee-pending' :
+                    lead.status === 'Admitted' ? 'badge-admitted' :
+                    lead.status === 'Rejected' ? 'badge-rejected' : 'badge-not-interested'
+                  %>">
+                    <%= lead.status %>
+                  </span>
+                </div>
+                <div class="text-muted small">
+                  <span class="me-3"><i class="bi bi-book-half me-1"></i><%= lead.courseInterested %></span>
+                  <span><i class="bi bi-geo-alt me-1"></i><%= lead.country %></span>
+                </div>
+              </div>
+              <div class="d-flex gap-2">
+                <a href="/leads/<%= lead._id %>" class="btn btn-sm btn-dark border-secondary text-info" title="View details"><i class="bi bi-eye"></i></a>
+                <a href="/leads/<%= lead._id %>/edit" class="btn btn-sm btn-dark border-secondary text-warning" title="Edit lead"><i class="bi bi-pencil"></i></a>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="text-center py-5 text-muted">
+          <i class="bi bi-folder-x fs-1 d-block mb-3"></i>
+          <span>No lead inquiries captured yet. Keep advertising your landing page inquiry form!</span>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Right Side: Scheduled Follow-ups -->
+  <div class="col-xl-6">
+    <div class="card glass-card p-4 h-100 border-0">
+      <div class="d-flex justify-content-between align-items-center mb-4 pb-3" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+        <h4 class="fw-bold mb-0" style="color: #E2E8F0; font-size: 1.05rem;"><i class="bi bi-calendar-event me-2" style="color: #F59E0B;"></i>Upcoming Follow-ups</h4>
+        <span class="badge fw-bold rounded-pill" style="background: rgba(245,158,11,0.15); color: #FBBF24; font-size: 0.8rem; padding: 6px 12px;"><%= stats.pendingFollowUps %> Total</span>
+      </div>
+      
+      <% if (upcomingFollowUps && upcomingFollowUps.length > 0) { %>
+        <div class="d-flex flex-column gap-3">
+          <% upcomingFollowUps.forEach(lead => { %>
+            <div class="p-3 rounded bg-dark bg-opacity-50 border border-secondary d-flex justify-content-between align-items-center">
+              <div style="max-width: 75%;">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <h6 class="mb-0 fw-bold text-white"><%= lead.fullName %></h6>
+                  <span class="badge bg-secondary text-info" style="font-size: 0.7rem;"><%= lead.phone %></span>
+                </div>
+                <div class="text-white-50 small text-truncate" style="max-width: 100%;">
+                  <i class="bi bi-sticky me-1 text-warning"></i>
+                  <%= lead.notes || 'No counseling notes logged.' %>
+                </div>
+              </div>
+              <div class="text-end">
+                <div class="text-warning small fw-bold mb-1">
+                  <i class="bi bi-alarm-fill me-1"></i>
+                  <%= new Date(lead.followUpDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                </div>
+                <a href="/leads/<%= lead._id %>" class="btn btn-sm btn-outline-info py-0 px-2 small" style="font-size: 0.75rem;">Manage</a>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="text-center py-5 text-muted">
+          <i class="bi bi-calendar-check fs-1 d-block mb-3"></i>
+          <span>No follow-ups scheduled. Set follow-up dates when editing student details to stay organized!</span>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+</div>
+
+<!-- Chart.js Libraries and Initialization Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Funnel Status Doughnut Chart
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    new Chart(statusCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['New Inquiry', 'Contacted', 'Interested', 'Docs Pending', 'Docs Verified', 'App Submitted', 'Offer Issued', 'Fee Pending', 'Admitted', 'Rejected', 'Not Interested'],
+        datasets: [{
+          data: [
+            <%= stats.newLeads %>,
+            <%= stats.contactedLeads %>,
+            <%= stats.interestedLeads %>,
+            <%= stats.pendingDocsLeads %>,
+            <%= stats.verifiedDocsLeads %>,
+            <%= stats.submittedAppLeads %>,
+            <%= stats.issuedOfferLeads %>,
+            <%= stats.pendingFeeLeads %>,
+            <%= stats.admittedLeads %>,
+            <%= stats.rejectedLeads %>,
+            <%= stats.notInterestedLeads %>
+          ],
+          backgroundColor: [
+            'rgba(6, 182, 212, 0.75)',   // Cyan
+            'rgba(139, 92, 246, 0.75)',  // Purple
+            'rgba(245, 158, 11, 0.75)',  // Orange
+            'rgba(234, 179, 8, 0.75)',   // Yellow
+            'rgba(16, 185, 129, 0.75)',  // Emerald Green
+            'rgba(59, 130, 246, 0.75)',  // Blue
+            'rgba(236, 72, 153, 0.75)',  // Pink
+            'rgba(249, 115, 22, 0.75)',  // Gold/Orange-Red
+            'rgba(34, 197, 94, 0.75)',   // Admitted: Bright Green
+            'rgba(239, 68, 68, 0.75)',   // Rejected: Red
+            'rgba(156, 163, 175, 0.75)'  // Not Interested: Gray
+          ],
+          borderColor: '#1f2937',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              color: '#334155',
+              boxWidth: 12,
+              padding: 10,
+              font: { family: 'Inter', size: 11, weight: '500' }
+            }
+          }
+        },
+        cutout: '65%'
+      }
+    });
+
+    // 2. Course Popularity Horizontal Bar Chart
+    const courseCtx = document.getElementById('courseChart').getContext('2d');
+    const courseLabels = [];
+    const courseCounts = [];
+    
+    <% if (courseStats && courseStats.length > 0) { %>
+      <% courseStats.forEach(item => { %>
+        courseLabels.push('<%= item._id %>');
+        courseCounts.push(<%= item.count %>);
+      <% }) %>
+    <% } %>
+
+    new Chart(courseCtx, {
+      type: 'bar',
+      data: {
+        labels: courseLabels.map(label => label.length > 20 ? label.substring(0, 17) + '...' : label),
+        datasets: [{
+          data: courseCounts,
+          backgroundColor: 'rgba(20, 184, 166, 0.7)',
+          borderColor: '#14b8a6',
+          borderWidth: 1,
+          borderRadius: 6,
+          barThickness: 18
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          x: {
+            grid: { color: '#E2E8F0', drawBorder: false },
+            ticks: { color: '#64748B', font: { family: 'Inter' }, stepSize: 1 }
+          },
+          y: {
+            grid: { display: false, drawBorder: false },
+            ticks: { color: '#0F172A', font: { family: 'Inter', size: 11, weight: '500' } }
+          }
+        }
+      }
+    });
+  });
+</script>
+
+<%- include('partials/footer') %>

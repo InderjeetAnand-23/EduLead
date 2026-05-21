@@ -1,0 +1,236 @@
+<%- include('partials/header') %>
+
+
+  <!-- Alert Notifications -->
+  <% if (typeof success !== 'undefined' && success) { %>
+    <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert" style="background-color: #ECFDF5; color: #047857; border-left: 4px solid #10B981; border-radius: 8px;">
+      <i class="bi bi-check-circle-fill me-2"></i> <%= success %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% } %>
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm mb-4" role="alert" style="background-color: #FEF2F2; color: #B91C1C; border-left: 4px solid #EF4444; border-radius: 8px;">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i> <%= error %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% } %>
+
+  <div class="row g-4">
+    <!-- Left Column: Student Context & Program Info -->
+    <div class="col-lg-4">
+      <div class="card p-4 border-0 shadow-sm h-100" style="border-radius: 20px; background-color: #FFFFFF;">
+        <div class="text-center mb-4 pb-3 border-bottom border-light">
+          <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 72px; height: 72px; background-color: rgba(37, 99, 235, 0.08); color: #2563EB;">
+            <i class="bi bi-mortarboard fs-1"></i>
+          </div>
+          <h4 class="fw-extrabold mb-1" style="font-family: 'Outfit', sans-serif; color: #0F172A;"><%= student.fullName %></h4>
+          <span class="badge bg-soft-blue px-3 py-2 fw-semibold rounded-pill" style="color: #2563EB; background-color: rgba(37, 99, 235, 0.08) !important; font-size: 0.8rem;">
+            <i class="bi bi-envelope-at me-1"></i> Registered Student
+          </span>
+        </div>
+
+        <div class="d-flex flex-column gap-3">
+          <div>
+            <label class="text-muted small text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Student Reference ID</label>
+            <div class="fw-bold" style="color: #0F172A;"><%= student.id %></div>
+          </div>
+          <div>
+            <label class="text-muted small text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Primary Email</label>
+            <div style="color: #334155;"><%= student.email %></div>
+          </div>
+          <div>
+            <label class="text-muted small text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Contact Phone</label>
+            <div style="color: #334155;"><%= student.phone || 'Not Specified' %></div>
+          </div>
+          
+          <% if (lead) { %>
+            <div class="pt-3 border-top border-light mt-2">
+              <label class="text-muted small text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Selected Program</label>
+              <div class="fw-extrabold" style="color: #2563EB; font-size: 1.05rem;"><%= lead.courseInterested %></div>
+            </div>
+            <div>
+              <label class="text-muted small text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Destination Country</label>
+              <div class="fw-bold" style="color: #0F172A;"><i class="bi bi-geo-alt me-1 text-danger"></i><%= lead.country %></div>
+            </div>
+            <% if (lead.budget) { %>
+              <div>
+                <label class="text-muted small text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Annual Tuition Budget</label>
+                <div style="color: #334155;"><i class="bi bi-currency-dollar me-1 text-success"></i><%= lead.budget %></div>
+              </div>
+            <% } %>
+            <% if (lead.qualification) { %>
+              <div>
+                <label class="text-muted small text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Highest Qualification</label>
+                <div style="color: #334155;"><i class="bi bi-award me-1 text-warning"></i><%= lead.qualification %></div>
+              </div>
+            <% } %>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Status Timeline Tracking -->
+    <div class="col-lg-8">
+      <div class="card p-4 p-md-5 border-0 shadow-sm h-100" style="border-radius: 20px; background-color: #FFFFFF;">
+        
+        <% if (!lead) { %>
+          <!-- State: No Inquiry Submitted Yet -->
+          <div class="text-center py-5">
+            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=300&q=80" alt="Submit Inquiry" class="img-fluid rounded mb-4" style="max-height: 180px; object-fit: cover; border-radius: 12px; filter: grayscale(10%);">
+            <h3 class="fw-extrabold text-navy" style="font-family: 'Outfit', sans-serif; color: #0F172A; font-size: 1.8rem;">No Inquiry Found</h3>
+            <p class="text-muted mb-4 mx-auto" style="max-width: 460px;">Your student account is active, but you haven't submitted your program inquiry yet. Submit the inquiry form to start the admissions pipeline!</p>
+            <a href="/#inquiry-form-section" class="btn btn-primary-blue px-4 py-3 fw-bold shadow-sm d-inline-flex align-items-center gap-2" style="background-color: #2563EB; border-color: #2563EB; border-radius: 8px; color: #ffffff;">
+              <i class="bi bi-pencil-square"></i> Submit Inquiry Now
+            </a>
+          </div>
+        <% } else { %>
+          
+          <!-- State: Inquiry Active (Show Timeline & Stepper) -->
+          <div class="mb-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+              <span class="badge bg-soft-blue mb-2 px-3 py-2 fw-semibold rounded-pill" style="color: #2563EB; background-color: rgba(37, 99, 235, 0.08) !important;">
+                <i class="bi bi-clock-history me-1"></i> Live Tracking
+              </span>
+              <h3 class="fw-extrabold mb-1" style="font-family: 'Outfit', sans-serif; color: #0F172A; font-size: 1.8rem;">Admission Status Pipeline</h3>
+            </div>
+            
+            <% 
+              let statusBadgeClass = 'bg-secondary';
+              if (['New Inquiry', 'Contacted', 'Interested'].includes(lead.status)) statusBadgeClass = 'bg-primary';
+              else if (['Documents Pending', 'Documents Verified'].includes(lead.status)) statusBadgeClass = 'bg-info';
+              else if (['Application Submitted', 'Offer Letter Issued'].includes(lead.status)) statusBadgeClass = 'bg-warning text-dark';
+              else if (lead.status === 'Fee Pending') statusBadgeClass = 'bg-primary bg-opacity-75';
+              else if (lead.status === 'Admitted') statusBadgeClass = 'bg-success';
+              else if (lead.status === 'Rejected') statusBadgeClass = 'bg-danger';
+            %>
+            <div class="px-4 py-2 rounded-3 text-white fw-bold <%= statusBadgeClass %>" style="font-size: 1rem;">
+              Status: <%= lead.status %>
+            </div>
+          </div>
+
+          <!-- Stepper Calculation -->
+          <% 
+            let step = 1;
+            if (['New Inquiry', 'Contacted', 'Interested'].includes(lead.status)) {
+              step = 1;
+            } else if (['Documents Pending', 'Documents Verified'].includes(lead.status)) {
+              step = 2;
+            } else if (['Application Submitted', 'Offer Letter Issued'].includes(lead.status)) {
+              step = 3;
+            } else if (lead.status === 'Fee Pending') {
+              step = 4;
+            } else if (lead.status === 'Admitted') {
+              step = 5;
+            } else if (['Rejected', 'Not Interested'].includes(lead.status)) {
+              step = -1; // Special/Canceled state
+            }
+          %>
+
+          <% if (step === -1) { %>
+            <!-- Stepper Canceled/Rejected Alert -->
+            <div class="alert alert-danger border-0 p-4 mb-4" style="background-color: #FEF2F2; border-radius: 12px; color: #B91C1C;">
+              <h5 class="fw-bold mb-2"><i class="bi bi-exclamation-octagon-fill me-2"></i>Application Status Update</h5>
+              <p class="small mb-0">Your academic admission inquiry has been updated to <strong>"<%= lead.status %>"</strong> by the counseling panel. Please get in touch with our helpdesk if you wish to appeal or submit a new inquiry.</p>
+            </div>
+          <% } else { %>
+            <!-- Horizontal Progress Tracker -->
+            <div class="position-relative py-4 mb-5">
+              <div class="progress" style="height: 6px; background-color: #E2E8F0;">
+                <div class="progress-bar bg-primary-blue" role="progressbar" style="width: <%= (step - 1) * 25 %>%; background-color: #2563EB;" aria-valuenow="<%= (step - 1) * 25 %>" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              
+              <!-- Steps Circles -->
+              <div class="d-flex justify-content-between position-absolute w-100" style="top: 50%; transform: translateY(-50%); left: 0;">
+                
+                <!-- Step 1 -->
+                <div class="text-center" style="width: 80px;">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto" 
+                       style="width: 32px; height: 32px; font-size: 0.85rem; font-weight: bold; border: 2px solid <%= step >= 1 ? '#2563EB' : '#CBD5E1' %>; background-color: <%= step >= 1 ? '#2563EB' : '#FFFFFF' %>; color: <%= step >= 1 ? '#FFFFFF' : '#64748B' %>;">
+                    <% if (step > 1) { %><i class="bi bi-check-lg"></i><% } else { %>1<% } %>
+                  </div>
+                  <span class="small fw-semibold d-block mt-2" style="font-size: 0.75rem; color: <%= step >= 1 ? '#0F172A' : '#64748B' %>;">Inquiry</span>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="text-center" style="width: 80px;">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto" 
+                       style="width: 32px; height: 32px; font-size: 0.85rem; font-weight: bold; border: 2px solid <%= step >= 2 ? '#2563EB' : '#CBD5E1' %>; background-color: <%= step >= 2 ? '#2563EB' : '#FFFFFF' %>; color: <%= step >= 2 ? '#FFFFFF' : '#64748B' %>;">
+                    <% if (step > 2) { %><i class="bi bi-check-lg"></i><% } else { %>2<% } %>
+                  </div>
+                  <span class="small fw-semibold d-block mt-2" style="font-size: 0.75rem; color: <%= step >= 2 ? '#0F172A' : '#64748B' %>;">Documents</span>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="text-center" style="width: 80px;">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto" 
+                       style="width: 32px; height: 32px; font-size: 0.85rem; font-weight: bold; border: 2px solid <%= step >= 3 ? '#2563EB' : '#CBD5E1' %>; background-color: <%= step >= 3 ? '#2563EB' : '#FFFFFF' %>; color: <%= step >= 3 ? '#FFFFFF' : '#64748B' %>;">
+                    <% if (step > 3) { %><i class="bi bi-check-lg"></i><% } else { %>3<% } %>
+                  </div>
+                  <span class="small fw-semibold d-block mt-2" style="font-size: 0.75rem; color: <%= step >= 3 ? '#0F172A' : '#64748B' %>;">Processing</span>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="text-center" style="width: 80px;">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto" 
+                       style="width: 32px; height: 32px; font-size: 0.85rem; font-weight: bold; border: 2px solid <%= step >= 4 ? '#2563EB' : '#CBD5E1' %>; background-color: <%= step >= 4 ? '#2563EB' : '#FFFFFF' %>; color: <%= step >= 4 ? '#FFFFFF' : '#64748B' %>;">
+                    <% if (step > 4) { %><i class="bi bi-check-lg"></i><% } else { %>4<% } %>
+                  </div>
+                  <span class="small fw-semibold d-block mt-2" style="font-size: 0.75rem; color: <%= step >= 4 ? '#0F172A' : '#64748B' %>;">Fee Pending</span>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="text-center" style="width: 80px;">
+                  <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto" 
+                       style="width: 32px; height: 32px; font-size: 0.85rem; font-weight: bold; border: 2px solid <%= step >= 5 ? '#2563EB' : '#CBD5E1' %>; background-color: <%= step >= 5 ? '#2563EB' : '#FFFFFF' %>; color: <%= step >= 5 ? '#FFFFFF' : '#64748B' %>;">
+                    <% if (step > 5) { %><i class="bi bi-check-lg"></i><% } else { %>5<% } %>
+                  </div>
+                  <span class="small fw-semibold d-block mt-2" style="font-size: 0.75rem; color: <%= step >= 5 ? '#0F172A' : '#64748B' %>;">Admitted</span>
+                </div>
+
+              </div>
+            </div>
+          <% } %>
+
+          <!-- Coordination Schedule Details (Follow-ups) -->
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <div class="p-3 rounded-3 border border-light" style="background-color: #F8FAFC;">
+                <label class="text-muted small text-uppercase fw-bold d-block mb-1" style="font-size: 0.7rem; letter-spacing: 0.5px;">Upcoming Counselor Follow-up</label>
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-calendar-event text-primary-blue fs-5" style="color: #2563EB;"></i>
+                  <span class="fw-bold" style="color: #0F172A;">
+                    <%= lead.followUpDate ? new Date(lead.followUpDate).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) : 'To Be Scheduled' %>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-3 rounded-3 border border-light" style="background-color: #F8FAFC;">
+                <label class="text-muted small text-uppercase fw-bold d-block mb-1" style="font-size: 0.7rem; letter-spacing: 0.5px;">Admissions Office SLA</label>
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-shield-check text-success fs-5"></i>
+                  <span class="fw-semibold text-muted small">Standard 24-hour Response Guarantee</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Counselor Timeline Feedback Notes -->
+          <div class="mb-2">
+            <h5 class="fw-bold mb-3" style="font-family: 'Outfit', sans-serif; color: #0F172A; font-size: 1.15rem;"><i class="bi bi-chat-left-text me-2 text-teal" style="color: #14B8A6;"></i>Counselor Mentorship Notes</h5>
+            <div class="p-4 rounded-3 border border-light" style="background-color: #FFFFFF; font-size: 0.95rem; line-height: 1.6; max-height: 250px; overflow-y: auto;">
+              <% if (lead.notes) { %>
+                <div style="white-space: pre-line; color: #475569;"><%= lead.notes %></div>
+              <% } else { %>
+                <span class="text-muted italic">No Counselor mentorship feedback recorded yet. A dedicated advisor has been assigned to construct your enrollment notes.</span>
+              <% } %>
+            </div>
+          </div>
+
+        <% } %>
+
+      </div>
+    </div>
+  </div>
+
+<%- include('partials/footer') %>

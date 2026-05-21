@@ -1,0 +1,468 @@
+<%- include('partials/header') %>
+
+<div class="mb-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent p-0 mb-2">
+      <li class="breadcrumb-item"><a href="/dashboard" class="text-cyan text-decoration-none">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="/leads" class="text-cyan text-decoration-none">Leads</a></li>
+      <li class="breadcrumb-item active text-white" aria-current="page"><%= lead.fullName %></li>
+    </ol>
+  </nav>
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <h2 class="fw-bold mb-1"><%= lead.fullName %></h2>
+      <p class="text-muted mb-0">Student Lead profile captured on <%= new Date(lead.createdAt).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }) %>.</p>
+    </div>
+    
+    <div class="d-flex gap-2">
+      <a href="/leads/<%= lead._id %>/edit" class="btn btn-outline-warning text-warning border-warning d-flex align-items-center gap-2">
+        <i class="bi bi-pencil-square"></i>
+        <span>Edit Details</span>
+      </a>
+      <a href="/leads" class="btn btn-outline-secondary text-white border-secondary">Back to Records</a>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4 mb-5">
+  
+  <!-- Left Column: Core Dossier Card -->
+  <div class="col-lg-8">
+    <div class="card glass-card p-4 border-0 mb-4">
+      <h5 class="fw-bold mb-4 text-cyan border-bottom border-secondary pb-2">
+        <i class="bi bi-person-lines-fill me-2"></i>Personal & Academic Dossier
+      </h5>
+
+      <div class="row g-4">
+        <!-- 1. Contact Info -->
+        <div class="col-md-6">
+          <div class="mb-3">
+            <span class="text-muted d-block small mb-1">Corporate / Personal Email</span>
+            <span class="text-white fs-6 fw-semibold"><i class="bi bi-envelope me-2 text-info"></i><%= lead.email %></span>
+          </div>
+          <div class="mb-3">
+            <span class="text-muted d-block small mb-1">Mobile / WhatsApp Number</span>
+            <span class="text-white fs-6 fw-semibold"><i class="bi bi-whatsapp me-2 text-success"></i><%= lead.phone %></span>
+          </div>
+          <div class="mb-3">
+            <span class="text-muted d-block small mb-1">Country of Origin</span>
+            <span class="text-white fs-6 fw-semibold"><i class="bi bi-geo-alt me-2 text-danger"></i><%= lead.country %></span>
+          </div>
+        </div>
+
+        <!-- 2. Academic Preferences -->
+        <div class="col-md-6">
+          <div class="mb-3">
+            <span class="text-muted d-block small mb-1">Course / Program Selection</span>
+            <span class="text-white fs-6 fw-semibold"><i class="bi bi-book-half me-2 text-cyan"></i><%= lead.courseInterested %></span>
+          </div>
+          <div class="mb-3">
+            <span class="text-muted d-block small mb-1">Prior Qualifications</span>
+            <span class="text-white fs-6 fw-semibold"><i class="bi bi-mortarboard-fill me-2 text-info"></i><%= lead.qualification || 'Not provided' %></span>
+          </div>
+          <div class="mb-3">
+            <span class="text-muted d-block small mb-1">Annual Budget Statement</span>
+            <span class="text-white fs-6 fw-semibold"><i class="bi bi-cash-stack me-2 text-warning"></i><%= lead.budget || 'Not specified' %></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Admission Timeline Card -->
+    <div class="card glass-card p-4 border-0 mb-4">
+      <h5 class="fw-bold mb-4 text-cyan border-bottom border-secondary pb-2">
+        <i class="bi bi-clock-history me-2"></i>Admission Pipeline Timeline
+      </h5>
+      
+      <div class="timeline-stepper">
+        <% 
+          const stages = [
+            'New Inquiry',
+            'Contacted',
+            'Interested',
+            'Documents Pending',
+            'Documents Verified',
+            'Application Submitted',
+            'Offer Letter Issued',
+            'Fee Pending',
+            'Admitted'
+          ];
+          const currentStageIndex = stages.indexOf(lead.status);
+          const isTerminated = lead.status === 'Rejected' || lead.status === 'Not Interested';
+        %>
+
+        <% stages.forEach((stage, idx) => { %>
+          <% 
+            let stepClass = '';
+            if (isTerminated) {
+              stepClass = '';
+            } else if (idx < currentStageIndex) {
+              stepClass = 'completed';
+            } else if (idx === currentStageIndex) {
+              stepClass = 'active';
+            }
+          %>
+          <div class="timeline-step <%= stepClass %>">
+            <div class="timeline-marker">
+              <% if (idx < currentStageIndex && !isTerminated) { %>
+                <i class="bi bi-check text-dark fw-bold" style="font-size: 0.75rem; display: flex; align-items: center; justify-content: center; height: 100%;"></i>
+              <% } %>
+            </div>
+            <div class="timeline-content">
+              <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <span class="timeline-title <%= idx === currentStageIndex ? 'text-cyan fw-bold' : (idx < currentStageIndex ? 'text-success' : 'text-white-50') %>"><%= stage %></span>
+                <% if (idx === currentStageIndex) { %>
+                  <span class="badge bg-cyan text-dark fw-bold" style="font-size: 0.65rem;">CURRENT STAGE</span>
+                <% } %>
+              </div>
+              <% if (idx === currentStageIndex) { %>
+                <div class="text-muted small mt-1">
+                  <span>Last status update: <strong class="text-white"><%= new Date(lead.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></strong></span>
+                  <% if (lead.followUpDate) { %>
+                    <span class="mx-2">|</span>
+                    <span>Next Follow-up: <strong class="text-warning"><%= new Date(lead.followUpDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></strong></span>
+                  <% } %>
+                </div>
+              <% } %>
+            </div>
+          </div>
+        <% }) %>
+
+        <% if (isTerminated) { %>
+          <div class="timeline-step active">
+            <div class="timeline-marker bg-danger border-danger">
+              <i class="bi bi-x text-white fw-bold" style="font-size: 0.85rem; display: flex; align-items: center; justify-content: center; height: 100%;"></i>
+            </div>
+            <div class="timeline-content border-danger bg-danger bg-opacity-10">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="timeline-title text-danger fw-bold"><%= lead.status %></span>
+                <span class="badge bg-danger text-white fw-bold" style="font-size: 0.65rem;">TERMINATED</span>
+              </div>
+              <div class="text-muted small mt-1">
+                <span>The lead pipeline was closed on <%= new Date(lead.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>.</span>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Notes & Counselor Logs -->
+    <div class="card glass-card p-4 border-0">
+      <h5 class="fw-bold mb-3 text-cyan border-bottom border-secondary pb-2">
+        <i class="bi bi-sticky-fill me-2"></i>Academic Counselor Discussion Log
+      </h5>
+      <div class="p-3 rounded bg-dark bg-opacity-70 border border-secondary text-white-50" style="white-space: pre-wrap; line-height: 1.7; font-size: 0.95rem;">
+        <%= lead.notes || 'No discussion notes logged for this student yet.' %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column: Status Summary & Counselor Actions -->
+  <div class="col-lg-4">
+    
+    <!-- Status Card -->
+    <div class="card glass-card p-4 border-0 mb-4 text-center">
+      <span class="text-muted d-block small mb-2 text-uppercase letter-spacing fw-bold">Admission Pipeline State</span>
+      
+      <div class="my-3">
+        <span class="fs-5 py-2 px-4 badge-custom <%= 
+          lead.status === 'New Inquiry' ? 'badge-new-inquiry' :
+          lead.status === 'Contacted' ? 'badge-contacted' :
+          lead.status === 'Interested' ? 'badge-interested' :
+          lead.status === 'Documents Pending' ? 'badge-documents-pending' :
+          lead.status === 'Documents Verified' ? 'badge-documents-verified' :
+          lead.status === 'Application Submitted' ? 'badge-application-submitted' :
+          lead.status === 'Offer Letter Issued' ? 'badge-offer-letter-issued' :
+          lead.status === 'Fee Pending' ? 'badge-fee-pending' :
+          lead.status === 'Admitted' ? 'badge-admitted' :
+          lead.status === 'Rejected' ? 'badge-rejected' : 'badge-not-interested'
+        %>">
+          <%= lead.status %>
+        </span>
+      </div>
+      
+      <div class="text-muted small border-top border-secondary pt-3 mt-3">
+        <span>Lead source: <strong class="text-white"><%= lead.leadSource %></strong></span>
+      </div>
+    </div>
+
+    <!-- Quick Counselor Actions -->
+    <% if (lead.status !== 'Admitted' && lead.status !== 'Rejected' && lead.status !== 'Not Interested') { %>
+      <div class="card glass-card p-4 border-0 mb-4">
+        <h5 class="fw-bold mb-3 text-cyan border-bottom border-secondary pb-2"><i class="bi bi-lightning-charge-fill me-2"></i>Quick Status Actions</h5>
+        
+        <div class="d-flex flex-column gap-2">
+          <% if (lead.status === 'New Inquiry') { %>
+            <form action="/leads/<%= lead._id %>/status" method="POST">
+              <input type="hidden" name="status" value="Contacted">
+              <button type="submit" class="btn btn-outline-info w-100 text-start d-flex justify-content-between align-items-center py-2 px-3">
+                <span>1. Mark as Contacted</span>
+                <i class="bi bi-chevron-right"></i>
+              </button>
+            </form>
+          <% } %>
+
+          <% if (lead.status === 'Contacted') { %>
+            <form action="/leads/<%= lead._id %>/status" method="POST">
+              <input type="hidden" name="status" value="Interested">
+              <button type="submit" class="btn btn-outline-custom w-100 text-start d-flex justify-content-between align-items-center py-2 px-3" style="color: #c084fc; border-color: rgba(192, 132, 252, 0.4);">
+                <span>2. Mark as Interested</span>
+                <i class="bi bi-chevron-right"></i>
+              </button>
+            </form>
+          <% } %>
+
+          <% if (lead.status === 'Contacted' || lead.status === 'Interested' || lead.status === 'Documents Pending') { %>
+            <form action="/leads/<%= lead._id %>/status" method="POST" class="mt-1">
+              <input type="hidden" name="status" value="Documents Verified">
+              <button type="submit" class="btn btn-outline-success w-100 text-start d-flex justify-content-between align-items-center py-2 px-3" style="color: #34d399; border-color: rgba(52, 211, 153, 0.4);">
+                <span>3. Mark Documents Verified</span>
+                <i class="bi bi-shield-check"></i>
+              </button>
+            </form>
+          <% } %>
+
+          <% if (lead.status === 'Documents Verified') { %>
+            <form action="/leads/<%= lead._id %>/status" method="POST">
+              <input type="hidden" name="status" value="Application Submitted">
+              <button type="submit" class="btn btn-outline-primary w-100 text-start d-flex justify-content-between align-items-center py-2 px-3" style="color: #60a5fa; border-color: rgba(96, 165, 250, 0.4);">
+                <span>4. Mark Application Submitted</span>
+                <i class="bi bi-chevron-right"></i>
+              </button>
+            </form>
+          <% } %>
+
+          <% if (lead.status === 'Application Submitted') { %>
+            <form action="/leads/<%= lead._id %>/status" method="POST">
+              <input type="hidden" name="status" value="Offer Letter Issued">
+              <button type="submit" class="btn btn-outline-warning w-100 text-start d-flex justify-content-between align-items-center py-2 px-3" style="color: #f472b6; border-color: rgba(244, 114, 182, 0.4);">
+                <span>5. Issue Offer Letter</span>
+                <i class="bi bi-envelope-check"></i>
+              </button>
+            </form>
+          <% } %>
+
+          <% if (lead.status === 'Offer Letter Issued') { %>
+            <form action="/leads/<%= lead._id %>/status" method="POST">
+              <input type="hidden" name="status" value="Fee Pending">
+              <button type="submit" class="btn btn-outline-warning w-100 text-start d-flex justify-content-between align-items-center py-2 px-3" style="color: #fb923c; border-color: rgba(251, 146, 60, 0.4);">
+                <span>6. Mark Fee Pending</span>
+                <i class="bi bi-currency-dollar"></i>
+              </button>
+            </form>
+          <% } %>
+
+          <% if (lead.status === 'Fee Pending') { %>
+            <form action="/leads/<%= lead._id %>/status" method="POST">
+              <input type="hidden" name="status" value="Admitted">
+              <button type="submit" class="btn btn-outline-success w-100 text-start d-flex justify-content-between align-items-center py-2 px-3" style="color: #4ade80; border-color: rgba(74, 222, 128, 0.4);">
+                <span>7. Mark as Admitted 🎉</span>
+                <i class="bi bi-check-circle-fill"></i>
+              </button>
+            </form>
+          <% } %>
+
+          <!-- Universal Actions -->
+          <div class="border-top border-secondary my-2 pt-3 d-flex gap-2">
+            <form action="/leads/<%= lead._id %>/status" method="POST" class="flex-grow-1" onsubmit="return confirm('Are you sure you want to REJECT this lead?');">
+              <input type="hidden" name="status" value="Rejected">
+              <button type="submit" class="btn btn-sm btn-outline-danger w-100 py-2">
+                <i class="bi bi-x-circle me-1"></i> Reject Lead
+              </button>
+            </form>
+            <form action="/leads/<%= lead._id %>/status" method="POST" class="flex-grow-1" onsubmit="return confirm('Are you sure you want to mark this lead as NOT INTERESTED?');">
+              <input type="hidden" name="status" value="Not Interested">
+              <button type="submit" class="btn btn-sm btn-outline-secondary w-100 text-white border-secondary py-2">
+                <i class="bi bi-dash-circle me-1"></i> Not Interested
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    <% } %>
+
+    <!-- Actions & Alerts -->
+    <div class="card glass-card p-4 border-0 mb-4">
+      <h5 class="fw-bold mb-3 text-cyan border-bottom border-secondary pb-2"><i class="bi bi-bell-fill me-2"></i>Action Required</h5>
+      
+      <!-- Follow up date panel -->
+      <div class="mb-4">
+        <span class="text-muted d-block small mb-1">Scheduled Follow-up Date</span>
+        <% if (lead.followUpDate) { %>
+          <% 
+            const followDate = new Date(lead.followUpDate);
+            const isOverdue = followDate < new Date() && lead.status !== 'Admitted' && lead.status !== 'Rejected' && lead.status !== 'Not Interested';
+          %>
+          <div class="d-flex align-items-center gap-2">
+            <span class="fs-6 fw-bold <%= isOverdue ? 'text-danger' : 'text-warning' %>">
+              <i class="bi <%= isOverdue ? 'bi-exclamation-triangle-fill' : 'bi-calendar2-week-fill' %> me-2"></i>
+              <%= followDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) %>
+            </span>
+          </div>
+          <% if (isOverdue) { %>
+            <div class="text-danger small mt-2"><i class="bi bi-clock-history me-1"></i>Follow-up schedule is overdue! Reach out to the student as soon as possible.</div>
+          <% } %>
+        <% } else { %>
+          <span class="text-white-50"><i class="bi bi-calendar-x me-2 text-muted"></i>No follow-up scheduled.</span>
+        <% } %>
+      </div>
+
+      <div class="d-grid gap-2">
+        <a href="/leads/<%= lead._id %>/edit" class="btn btn-outline-custom"><i class="bi bi-calendar-event me-2"></i>Update Schedule / Status</a>
+        
+        <!-- Delete directly -->
+        <form action="/leads/<%= lead._id %>?_method=DELETE" method="POST" class="w-100" onsubmit="return confirm('Are you sure you want to permanently delete lead <%= lead.fullName %>?');">
+          <button type="submit" class="btn btn-dark text-danger border-danger w-100 mt-2 py-2">
+            <i class="bi bi-trash-fill me-2"></i>Remove Lead Record
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Documents Section -->
+<div class="mb-5">
+  <div class="card glass-card border-0 p-4">
+    <h5 class="fw-bold mb-4 text-cyan border-bottom border-secondary pb-2">
+      <i class="bi bi-folder2-open me-2"></i>Uploaded Documents
+    </h5>
+
+    <% if (typeof documents !== 'undefined' && documents && documents.length > 0) { %>
+      <%
+        const docTypeLabel = {
+          passport: 'Passport',
+          marksheet: 'Marksheet / Transcript',
+          id_proof: 'ID Proof',
+          offer_letter: 'Offer Letter',
+          other: 'Other Document'
+        };
+        const docTypeIcon = {
+          passport: 'bi-passport',
+          marksheet: 'bi-file-earmark-text',
+          id_proof: 'bi-person-badge',
+          offer_letter: 'bi-envelope-paper',
+          other: 'bi-paperclip'
+        };
+      %>
+
+      <div class="row g-3">
+        <% documents.forEach(doc => { %>
+          <div class="col-md-6">
+            <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px;">
+
+              <!-- Doc Type Header -->
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="d-flex align-items-center gap-3">
+                  <div style="width:40px; height:40px; border-radius:10px; background:rgba(99,179,237,0.1); display:flex; align-items:center; justify-content:center; color:#63B3ED; font-size:1.1rem;">
+                    <i class="bi <%= docTypeIcon[doc.documentType] || 'bi-file-earmark' %>"></i>
+                  </div>
+                  <div>
+                    <div class="fw-semibold text-white" style="font-size:0.9rem;"><%= docTypeLabel[doc.documentType] || doc.documentType %></div>
+                    <div class="text-muted" style="font-size:0.75rem;"><%= new Date(doc.uploadedAt).toLocaleDateString('en-US', { day:'numeric', month:'short', year:'numeric' }) %></div>
+                  </div>
+                </div>
+
+                <!-- Status Badge -->
+                <% if (doc.status === 'uploaded') { %>
+                  <span style="background:rgba(59,130,246,0.15); color:#60A5FA; border:1px solid rgba(59,130,246,0.3); border-radius:20px; padding:3px 10px; font-size:0.72rem; font-weight:700;">UPLOADED</span>
+                <% } else if (doc.status === 'verified') { %>
+                  <span style="background:rgba(16,185,129,0.15); color:#34D399; border:1px solid rgba(16,185,129,0.3); border-radius:20px; padding:3px 10px; font-size:0.72rem; font-weight:700;">VERIFIED</span>
+                <% } else if (doc.status === 'rejected') { %>
+                  <span style="background:rgba(239,68,68,0.15); color:#F87171; border:1px solid rgba(239,68,68,0.3); border-radius:20px; padding:3px 10px; font-size:0.72rem; font-weight:700;">REJECTED</span>
+                <% } %>
+              </div>
+
+              <!-- File Name & View -->
+              <div class="d-flex align-items-center justify-content-between mb-3"
+                   style="background:rgba(0,0,0,0.2); border-radius:8px; padding:8px 12px;">
+                <div class="text-muted small" style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:160px;">
+                  <i class="bi bi-paperclip me-1"></i><%= doc.originalName %>
+                </div>
+                <a href="/<%= doc.filePath %>" target="_blank"
+                   class="btn btn-sm text-info border-info"
+                   style="border:1px solid rgba(56,189,248,0.4); border-radius:7px; padding:4px 10px; font-size:0.78rem; color:#38BDF8; white-space:nowrap;">
+                  <i class="bi bi-eye me-1"></i> View
+                </a>
+              </div>
+
+              <!-- Admin Note (if rejected/verified) -->
+              <% if (doc.adminNote) { %>
+                <div class="mb-3 px-2 py-2 rounded" style="background:rgba(255,255,255,0.04); border-left:3px solid <%= doc.status==='rejected'?'#F87171':'#34D399' %>; font-size:0.8rem; color:<%= doc.status==='rejected'?'#FCA5A5':'#6EE7B7' %>;">
+                  <strong>Note:</strong> <%= doc.adminNote %>
+                </div>
+              <% } %>
+
+              <!-- Admin Actions (only for uploaded status) -->
+              <% if (doc.status !== 'verified') { %>
+                <div class="d-flex gap-2">
+                  <!-- Verify -->
+                  <form action="/admin/documents/<%= doc._id %>/verify" method="POST" class="flex-grow-1">
+                    <input type="hidden" name="adminNote" value="Document verified by counsellor.">
+                    <button type="submit" class="btn btn-sm w-100 py-2"
+                            style="background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.35); color:#34D399; border-radius:8px; font-weight:600; font-size:0.82rem;">
+                      <i class="bi bi-patch-check-fill me-1"></i> Verify
+                    </button>
+                  </form>
+
+                  <!-- Reject with note -->
+                  <button type="button" class="btn btn-sm flex-grow-1 py-2"
+                          style="background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.35); color:#F87171; border-radius:8px; font-weight:600; font-size:0.82rem;"
+                          onclick="toggleRejectForm('<%= doc._id %>')">
+                    <i class="bi bi-x-circle-fill me-1"></i> Reject
+                  </button>
+                </div>
+
+                <!-- Reject form (hidden by default) -->
+                <div id="reject-form-<%= doc._id %>" style="display:none; margin-top:10px;">
+                  <form action="/admin/documents/<%= doc._id %>/reject" method="POST">
+                    <div class="mb-2">
+                      <input type="text" name="adminNote"
+                             class="form-control"
+                             style="background:rgba(255,255,255,0.05); border-color:rgba(239,68,68,0.3); color:#fff; font-size:0.82rem; border-radius:8px;"
+                             placeholder="Rejection reason for student..." required>
+                    </div>
+                    <div class="d-flex gap-2">
+                      <button type="submit" class="btn btn-sm flex-grow-1"
+                              style="background:#DC2626; border:none; color:#fff; border-radius:8px; font-weight:600; font-size:0.82rem; padding:8px;">
+                        Confirm Rejection
+                      </button>
+                      <button type="button" class="btn btn-sm"
+                              style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:#94A3B8; border-radius:8px; font-size:0.82rem;"
+                              onclick="toggleRejectForm('<%= doc._id %>')">
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              <% } %>
+
+            </div>
+          </div>
+        <% }) %>
+      </div>
+
+    <% } else { %>
+      <div class="text-center py-5" style="color:#475569;">
+        <i class="bi bi-folder-x d-block mb-3" style="font-size:2.5rem; color:#334155;"></i>
+        <p class="mb-1" style="font-size:0.9rem;">No documents uploaded by this student yet.</p>
+        <p style="font-size:0.8rem; color:#334155;">Documents will appear here once the student uploads them from their account.</p>
+      </div>
+    <% } %>
+
+  </div>
+</div>
+
+<script>
+function toggleRejectForm(docId) {
+  const form = document.getElementById('reject-form-' + docId);
+  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+</script>
+
+<%- include('partials/footer') %>

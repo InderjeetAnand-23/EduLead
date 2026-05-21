@@ -1,0 +1,122 @@
+<%- include('partials/header') %>
+
+<div class="min-vh-100 d-flex align-items-center justify-content-center py-5" style="background: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 50%, #F0FDF9 100%);">
+  <div class="w-100" style="max-width: 500px; padding: 0 20px;">
+
+    <!-- Brand Header -->
+    <div class="text-center mb-4">
+      <div class="d-inline-flex align-items-center gap-2 mb-4">
+        <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #2563EB 0%, #14B8A6 100%); display: flex; align-items: center; justify-content: center;">
+          <i class="bi bi-mortarboard-fill" style="color: #fff; font-size: 1.2rem;"></i>
+        </div>
+        <span style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 700; color: #0F172A; letter-spacing: -0.3px;">EduLead</span>
+      </div>
+    </div>
+
+    <!-- Register Card -->
+    <div class="card border-0 p-5" style="border-radius: 24px; background: #FFFFFF; box-shadow: 0 4px 6px rgba(15,23,42,0.04), 0 20px 50px rgba(15,23,42,0.08);">
+
+      <!-- Card Header -->
+      <div class="mb-4">
+        <h2 class="fw-bold mb-1" style="font-family: 'Outfit', sans-serif; color: #0F172A; font-size: 1.6rem;">Create Admin Account</h2>
+        <p class="mb-0" style="color: #64748B; font-size: 0.9rem;">Register an administrative workspace account for EduLead</p>
+      </div>
+
+      <!-- Alerts -->
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-dismissible fade show mb-4 border-0 py-3 px-4" role="alert"
+             style="background: #FEF2F2; color: #B91C1C; border-left: 4px solid #EF4444 !important; border-radius: 10px;">
+          <i class="bi bi-exclamation-circle-fill me-2"></i><%= error %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% } %>
+      <% if (typeof success !== 'undefined' && success) { %>
+        <div class="alert alert-dismissible fade show mb-4 border-0 py-3 px-4" role="alert"
+             style="background: #ECFDF5; color: #047857; border-left: 4px solid #10B981 !important; border-radius: 10px;">
+          <i class="bi bi-check-circle-fill me-2"></i><%= success %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% } %>
+
+      <!-- Register Form -->
+      <form action="/auth/register" method="POST">
+
+        <div class="mb-4">
+          <label for="username" class="form-label fw-semibold" style="color: #334155; font-size: 0.9rem;">Username</label>
+          <div class="input-group">
+            <span class="input-group-text" style="background: #F1F5F9; border-color: #CBD5E1; color: #64748B;">
+              <i class="bi bi-person"></i>
+            </span>
+            <input type="text" class="form-control" id="username" name="username"
+                   placeholder="e.g. counsellor_sam" required
+                   style="background: #FFFFFF; border-color: #CBD5E1; color: #0F172A; padding: 12px 16px;">
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="email" class="form-label fw-semibold" style="color: #334155; font-size: 0.9rem;">Business Email</label>
+          <div class="input-group">
+            <span class="input-group-text" style="background: #F1F5F9; border-color: #CBD5E1; color: #64748B;">
+              <i class="bi bi-envelope"></i>
+            </span>
+            <input type="email" class="form-control" id="email" name="email"
+                   placeholder="sam@edulead.com" required
+                   style="background: #FFFFFF; border-color: #CBD5E1; color: #0F172A; padding: 12px 16px;">
+          </div>
+        </div>
+
+        <div class="row g-3 mb-5">
+          <div class="col-md-6">
+            <label for="password" class="form-label fw-semibold" style="color: #334155; font-size: 0.9rem;">Password</label>
+            <div class="input-group">
+              <span class="input-group-text" style="background: #F1F5F9; border-color: #CBD5E1; color: #64748B;">
+                <i class="bi bi-lock"></i>
+              </span>
+              <input type="password" class="form-control" id="password" name="password"
+                     placeholder="Min. 6 chars" required
+                     style="background: #FFFFFF; border-color: #CBD5E1; color: #0F172A; padding: 12px 16px;">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="confirmPassword" class="form-label fw-semibold" style="color: #334155; font-size: 0.9rem;">Confirm Password</label>
+            <div class="input-group">
+              <span class="input-group-text" style="background: #F1F5F9; border-color: #CBD5E1; color: #64748B;">
+                <i class="bi bi-shield-check"></i>
+              </span>
+              <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                     placeholder="Repeat password" required
+                     style="background: #FFFFFF; border-color: #CBD5E1; color: #0F172A; padding: 12px 16px;">
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn w-100 py-3 fw-semibold" style="background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); color: #fff; border-radius: 12px; font-size: 1rem; border: none; box-shadow: 0 4px 15px rgba(37,99,235,0.3); transition: all 0.2s ease;">
+          <i class="bi bi-check-circle me-2"></i>Register Admin Account
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="d-flex align-items-center my-4">
+        <hr style="flex:1; border-color: #E2E8F0;">
+        <span class="px-3" style="color: #94A3B8; font-size: 0.8rem;">OR</span>
+        <hr style="flex:1; border-color: #E2E8F0;">
+      </div>
+
+      <div class="text-center">
+        <span style="color: #64748B; font-size: 0.875rem;">Already registered?</span>
+        <a href="/auth/login" class="ms-1 fw-semibold text-decoration-none" style="color: #2563EB; font-size: 0.875rem;">
+          Sign In <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Footer note -->
+    <p class="text-center mt-4" style="color: #94A3B8; font-size: 0.8rem;">
+      Protected access for authorized counsellors only
+    </p>
+
+  </div>
+</div>
+
+<%- include('partials/footer') %>

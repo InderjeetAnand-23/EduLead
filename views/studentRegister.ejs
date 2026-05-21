@@ -1,0 +1,92 @@
+<%- include('partials/header') %>
+
+<div class="row justify-content-center align-items-center py-5" style="min-height: 75vh;">
+  <div class="col-md-7 col-lg-6">
+      
+      <!-- Alert Notifications -->
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm mb-4" role="alert" style="background-color: #FEF2F2; color: #B91C1C; border-left: 4px solid #EF4444; border-radius: 8px;">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i> <%= error %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+
+      <!-- Registration Card -->
+      <div class="card p-4 p-md-5 border-0 shadow-sm" style="border-radius: 24px; background-color: #FFFFFF;">
+        
+        <!-- Header -->
+        <div class="text-center mb-4">
+          <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 64px; height: 64px; background-color: rgba(20, 184, 166, 0.08); color: #14B8A6;">
+            <i class="bi bi-person-plus-fill fs-1"></i>
+          </div>
+          <h3 class="fw-extrabold" style="font-family: 'Outfit', sans-serif; color: #0F172A; font-size: 1.8rem; margin-bottom: 6px;">Student Registration</h3>
+          <p class="text-muted small" style="color: #64748B !important; font-size: 0.95rem;">Create a profile to begin your global academic journey</p>
+        </div>
+
+        <!-- Form -->
+        <form action="/student/register" method="POST">
+          
+          <!-- Full Name -->
+          <div class="mb-3">
+            <label for="fullName" class="form-label" style="font-weight: 600; color: #334155; font-size: 0.9rem;">Full Name</label>
+            <div class="input-group">
+              <span class="input-group-text" style="background-color: #F8FAFC; border-color: #CBD5E1; color: #64748B;"><i class="bi bi-person"></i></span>
+              <input type="text" class="form-control" id="fullName" name="fullName" placeholder="e.g. John Doe" style="border-color: #CBD5E1; background-color: #FFFFFF; color: #334155;" required>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <!-- Email Address -->
+            <div class="col-md-6">
+              <label for="email" class="form-label" style="font-weight: 600; color: #334155; font-size: 0.9rem;">Email Address</label>
+              <div class="input-group">
+                <span class="input-group-text" style="background-color: #F8FAFC; border-color: #CBD5E1; color: #64748B;"><i class="bi bi-envelope"></i></span>
+                <input type="email" class="form-control" id="email" name="email" placeholder="john.doe@example.com" style="border-color: #CBD5E1; background-color: #FFFFFF; color: #334155;" required>
+              </div>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="col-md-6">
+              <label for="phone" class="form-label" style="font-weight: 600; color: #334155; font-size: 0.9rem;">Phone Number</label>
+              <div class="input-group">
+                <span class="input-group-text" style="background-color: #F8FAFC; border-color: #CBD5E1; color: #64748B;"><i class="bi bi-telephone"></i></span>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="+1 (555) 019-9234" style="border-color: #CBD5E1; background-color: #FFFFFF; color: #334155;" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-4">
+            <!-- Password -->
+            <div class="col-md-6">
+              <label for="password" class="form-label" style="font-weight: 600; color: #334155; font-size: 0.9rem;">Password</label>
+              <div class="input-group">
+                <span class="input-group-text" style="background-color: #F8FAFC; border-color: #CBD5E1; color: #64748B;"><i class="bi bi-lock"></i></span>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Min. 6 characters" style="border-color: #CBD5E1; background-color: #FFFFFF; color: #334155;" required>
+              </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="col-md-6">
+              <label for="confirmPassword" class="form-label" style="font-weight: 600; color: #334155; font-size: 0.9rem;">Confirm Password</label>
+              <div class="input-group">
+                <span class="input-group-text" style="background-color: #F8FAFC; border-color: #CBD5E1; color: #64748B;"><i class="bi bi-shield-check"></i></span>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Repeat password" style="border-color: #CBD5E1; background-color: #FFFFFF; color: #334155;" required>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary-blue w-100 py-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2" style="background-color: #2563EB; border-color: #2563EB; font-size: 1rem; border-radius: 12px; color: #ffffff;">
+            <i class="bi bi-check-circle-fill"></i> Create Student Profile
+          </button>
+        </form>
+        
+        <div class="text-center mt-4 pt-3 border-top border-light">
+          <span class="text-muted small" style="color: #64748B !important;">Already registered as a student?</span>
+          <a href="/student/login" class="text-primary-blue text-decoration-none small fw-bold ms-1" style="color: #2563EB;">Log In here <i class="bi bi-arrow-right"></i></a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,1899 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg-primary: #0b0f19;
+  --bg-secondary: #111827;
+  --bg-card: #1f2937;
+  --bg-card-hover: #263346;
+  --accent-cyan: #06b6d4;
+  --accent-teal: #14b8a6;
+  --accent-blue: #3b82f6;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --border-color: #374151;
+  --danger-color: #ef4444;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* =========================================================
+   GLASSMORPHISM CARD (Admin Dashboard Cards)
+   ========================================================= */
+.glass-card {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-3px);
+  background: rgba(30, 41, 59, 0.85);
+  border-color: rgba(37, 99, 235, 0.25);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3), 0 0 20px rgba(37, 99, 235, 0.06);
+}
+
+/* Typography styles */
+.gradient-text {
+  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+/* =========================================================
+   ADMIN DASHBOARD NAVBAR
+   ========================================================= */
+.admin-navbar {
+  background: #0F172A;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.4);
+}
+
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  padding: 0 8px;
+}
+
+.admin-brand-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.admin-brand-name {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #F8FAFC;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+}
+
+.admin-brand-sub {
+  display: block;
+  font-size: 0.7rem;
+  color: #64748B;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.admin-user-info {
+  gap: 12px;
+}
+
+.admin-user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #E2E8F0;
+  font-family: 'Outfit', sans-serif;
+  line-height: 1.2;
+}
+
+.admin-user-role {
+  font-size: 0.72rem;
+  color: #14B8A6;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.admin-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  font-family: 'Outfit', sans-serif;
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #F87171;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.admin-logout-btn:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.6);
+  color: #FCA5A5;
+}
+
+/* Interactive Buttons */
+.btn-gradient {
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 10px 24px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(135deg, #0891b2 0%, #2563eb 100%);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.45);
+}
+
+.btn-outline-custom {
+  border: 1px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  background: transparent;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 9px 23px;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-custom:hover {
+  background: rgba(6, 182, 212, 0.1);
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+/* Landing Page Hero and Layout */
+.hero-section {
+  padding: 80px 0;
+  background: radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 10% 80%, rgba(59, 130, 246, 0.12) 0%, transparent 50%);
+}
+
+.inquiry-form-card {
+  border-top: 4px solid var(--accent-cyan);
+}
+
+/* Custom Input Controls */
+.form-control, .form-select {
+  background-color: rgba(17, 24, 39, 0.7);
+  border: 1px solid var(--border-color);
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 12px 16px;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: var(--bg-secondary);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.25);
+  color: #ffffff;
+}
+
+.form-control::placeholder {
+  color: #6b7280;
+}
+
+label {
+  font-weight: 500;
+  color: #e5e7eb;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+/* Dashboard Metrics & Layout */
+.metric-card {
+  padding: 24px;
+}
+
+.metric-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+}
+
+.metric-value {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.metric-title {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* =========================================================
+   ADMIN SIDEBAR
+   ========================================================= */
+.sidebar-layout {
+  display: flex;
+  flex: 1;
+  min-height: calc(100vh - 64px);
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #0F172A;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 24px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.sidebar .text-white-50 {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #475569 !important;
+  padding: 8px 12px 4px 12px;
+  text-transform: uppercase;
+}
+
+.sidebar-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  color: #94A3B8;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.sidebar-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #E2E8F0;
+  border-left-color: transparent;
+}
+
+.sidebar-btn.active {
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.15) 0%, rgba(37, 99, 235, 0.03) 100%);
+  color: #60A5FA;
+  border-left: 3px solid #2563EB;
+  font-weight: 600;
+}
+
+.sidebar-btn i {
+  font-size: 1rem;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   ADMIN MAIN CONTENT AREA
+   ========================================================= */
+.main-content {
+  flex: 1;
+  padding: 36px 40px;
+  overflow-y: auto;
+  background-color: #0F172A;
+  background-image:
+    radial-gradient(circle at 10% 10%, rgba(37, 99, 235, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 90% 90%, rgba(20, 184, 166, 0.03) 0%, transparent 40%);
+}
+
+/* Custom Table Aesthetics */
+.table-custom {
+  margin-bottom: 0;
+}
+
+.table-custom th {
+  background-color: rgba(17, 24, 39, 0.8) !important;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--border-color);
+  padding: 16px 20px;
+}
+
+.table-custom td {
+  background-color: transparent !important;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--border-color);
+  padding: 16px 20px;
+  vertical-align: middle;
+}
+
+.table-custom tr {
+  transition: background-color 0.2s ease;
+}
+
+.table-custom tr:hover td {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+/* Dynamic CRM Badges */
+.badge-custom {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 30px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-new {
+  background: rgba(6, 182, 212, 0.15);
+  color: #22d3ee;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.badge-contacted {
+  background: rgba(139, 92, 246, 0.15);
+  color: #a78bfa;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+/* 11 Admissions Funnel Status Badges */
+.badge-new-inquiry {
+  background: rgba(6, 182, 212, 0.15);
+  color: #22d3ee;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.badge-contacted {
+  background: rgba(139, 92, 246, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.badge-interested {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-documents-pending {
+  background: rgba(234, 179, 8, 0.15);
+  color: #facc15;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.badge-documents-verified {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
+}
+
+.badge-application-submitted {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.badge-offer-letter-issued {
+  background: rgba(236, 72, 153, 0.15);
+  color: #f472b6;
+  border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.badge-fee-pending {
+  background: rgba(249, 115, 22, 0.15);
+  color: #fb923c;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+.badge-admitted {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.badge-rejected {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.badge-not-interested {
+  background: rgba(156, 163, 175, 0.15);
+  color: #d1d5db;
+  border: 1px solid rgba(156, 163, 175, 0.3);
+}
+
+/* Vertical Admission Timeline Stepper */
+.timeline-stepper {
+  position: relative;
+  padding-left: 32px;
+  margin-left: 12px;
+  border-left: 2px solid var(--border-color);
+}
+
+.timeline-step {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.timeline-step:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -42px;
+  top: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 3px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.timeline-step.completed .timeline-marker {
+  background: var(--success-color);
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
+
+.timeline-step.active .timeline-marker {
+  background: var(--accent-cyan);
+  border-color: rgba(6, 182, 212, 0.4);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.8);
+  width: 24px;
+  height: 24px;
+  left: -44px;
+  top: 2px;
+}
+
+.timeline-content {
+  background: rgba(17, 24, 39, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 12px 16px;
+  transition: border-color 0.2s ease;
+}
+
+.timeline-step.active .timeline-content {
+  border-color: rgba(6, 182, 212, 0.3);
+  background: rgba(6, 182, 212, 0.03);
+}
+
+.timeline-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.timeline-date {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Alert Boxes */
+.alert-custom {
+  border-radius: 12px;
+  padding: 16px 20px;
+  border: none;
+  font-weight: 500;
+}
+
+.alert-success-custom {
+  background-color: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #34d399;
+}
+
+.alert-danger-custom {
+  background-color: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+}
+
+/* Responsive sidebar controls */
+@media (max-width: 991.98px) {
+  .sidebar-layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .main-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .sidebar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-section {
+    padding: 40px 0;
+  }
+}
+
+/* Footer layout style */
+footer {
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  padding: 20px 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Searchable Country Dropdown Component */
+.country-select-container {
+  position: relative;
+}
+
+.country-dropdown-list {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 1050;
+  background-color: #111827;
+  border: 1px solid #374151;
+  border-radius: 8px;
+  margin-top: 4px;
+}
+
+.country-dropdown-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.country-dropdown-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.country-dropdown-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+.country-dropdown-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.country-item {
+  transition: all 0.15s ease;
+}
+
+.country-item:hover {
+  background-color: rgba(6, 182, 212, 0.15) !important;
+  color: var(--accent-cyan) !important;
+}
+
+/* --- PREMIUM LANDING PAGE EXTRA STYLES --- */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom transitions and keyframes */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.2); }
+  50% { box-shadow: 0 0 25px rgba(6, 182, 212, 0.5); }
+}
+
+.glow-hover:hover {
+  animation: pulseGlow 2s infinite;
+}
+
+.section-padding {
+  padding: 90px 0;
+  position: relative;
+}
+
+/* Subtle grid backdrop for visual premium depth */
+.grid-backdrop {
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(20, 184, 166, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.08) 0%, transparent 45%);
+}
+
+.section-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 2.5rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto 50px auto;
+  line-height: 1.6;
+}
+
+/* Interactive Academic Course Cards */
+.program-card {
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 30px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.program-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-teal));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.program-card:hover {
+  transform: translateY(-8px);
+  background: rgba(31, 41, 55, 0.75);
+  border-color: rgba(6, 182, 212, 0.25);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 25px rgba(6, 182, 212, 0.1);
+}
+
+.program-card:hover::before {
+  transform: scaleX(1);
+}
+
+.program-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(20, 184, 166, 0.05) 100%);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  color: var(--accent-cyan);
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+}
+
+.program-card:hover .program-icon-wrapper {
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-teal) 100%);
+  color: #ffffff;
+  transform: scale(1.08) rotate(5deg);
+}
+
+.program-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-teal);
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+/* Why Choose Us features styling */
+.feature-card {
+  background: rgba(31, 41, 55, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 20px;
+  padding: 35px 30px;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  background: rgba(31, 41, 55, 0.6);
+  border-color: rgba(20, 184, 166, 0.2);
+  transform: translateY(-4px);
+}
+
+.feature-icon-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(20, 184, 166, 0.1);
+  color: var(--accent-teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+/* Stepper Journey for Public Enrollment */
+.journey-step-container {
+  position: relative;
+  z-index: 1;
+}
+
+.journey-step-connector {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(6, 182, 212, 0.1) 0%, rgba(6, 182, 212, 0.6) 50%, rgba(6, 182, 212, 0.1) 100%);
+  z-index: -1;
+  transform: translateY(-50%);
+}
+
+.journey-step-item {
+  background: var(--bg-primary);
+  border: 2px solid rgba(6, 182, 212, 0.15);
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px auto;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.journey-step-card:hover .journey-step-item {
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+  color: #ffffff;
+  border-color: transparent;
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(6, 182, 212, 0.35);
+}
+
+/* Aesthetic Testimonials quotes */
+.testimonial-card-premium {
+  background: rgba(31, 41, 55, 0.45);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 40px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.testimonial-quote-icon {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.03);
+  pointer-events: none;
+  font-family: Georgia, serif;
+}
+
+.testimonial-rating {
+  color: #f59e0b;
+  margin-bottom: 20px;
+}
+
+/* Adjust timeline details inside Public visual Journey */
+@media (max-width: 991.98px) {
+  .journey-step-connector {
+    display: none;
+  }
+  .journey-step-card {
+    margin-bottom: 30px;
+  }
+}
+
+/* ==========================================================================
+   LIGHT LANDING PORTAL STYLES (body.light-landing-theme)
+   ========================================================================== */
+body.light-landing-theme {
+  background-color: #F8FAFC !important;
+  color: #334155 !important;
+}
+
+body.light-landing-theme h1,
+body.light-landing-theme h2,
+body.light-landing-theme h3,
+body.light-landing-theme h4,
+body.light-landing-theme h5,
+body.light-landing-theme h6 {
+  color: #0F172A !important;
+}
+
+body.light-landing-theme .text-white {
+  color: #0F172A !important;
+}
+
+body.light-landing-theme .text-muted {
+  color: #64748B !important;
+}
+
+/* Landing Navigation override */
+body.light-landing-theme .landing-navbar {
+  background-color: #FFFFFF !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+}
+
+body.light-landing-theme .landing-navbar .navbar-brand {
+  color: #0F172A !important;
+}
+
+body.light-landing-theme .landing-navbar .nav-link {
+  color: #475569 !important;
+  transition: color 0.2s ease;
+}
+
+body.light-landing-theme .landing-navbar .nav-link:hover,
+body.light-landing-theme .landing-navbar .nav-link.active {
+  color: #2563EB !important;
+}
+
+/* Buttons overrides */
+body.light-landing-theme .btn-primary-blue {
+  background-color: #2563EB !important;
+  border-color: #2563EB !important;
+  color: #FFFFFF !important;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+body.light-landing-theme .btn-primary-blue:hover {
+  background-color: #1D4ED8 !important;
+  border-color: #1D4ED8 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+body.light-landing-theme .btn-outline-navy {
+  border: 2px solid #0F172A !important;
+  color: #0F172A !important;
+  font-weight: 600;
+  background-color: transparent !important;
+  transition: all 0.2s ease;
+}
+
+body.light-landing-theme .btn-outline-navy:hover {
+  background-color: #0F172A !important;
+  color: #FFFFFF !important;
+}
+
+body.light-landing-theme .btn-outline-blue {
+  border: 2px solid #2563EB !important;
+  color: #2563EB !important;
+  font-weight: 600;
+  background-color: transparent !important;
+  transition: all 0.2s ease;
+}
+
+body.light-landing-theme .btn-outline-blue:hover {
+  background-color: #2563EB !important;
+  color: #FFFFFF !important;
+}
+
+/* Hero Section override */
+body.light-landing-theme .hero-section {
+  background: radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 10% 80%, rgba(20, 184, 166, 0.05) 0%, transparent 50%) !important;
+  padding: 100px 0 80px 0;
+}
+
+/* Premium Light Card overrides */
+body.light-landing-theme .premium-light-card {
+  background-color: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 20px !important;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.light-landing-theme .premium-light-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08) !important;
+  border-color: rgba(37, 99, 235, 0.3) !important;
+}
+
+/* Light form overrides */
+body.light-landing-theme .form-label {
+  color: #334155 !important;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+body.light-landing-theme .form-control,
+body.light-landing-theme .form-select {
+  background-color: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #334155 !important;
+  border-radius: 8px !important;
+  padding: 12px 16px !important;
+}
+
+body.light-landing-theme .form-control:focus,
+body.light-landing-theme .form-select:focus {
+  border-color: #2563EB !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+  color: #0F172A !important;
+}
+
+body.light-landing-theme .form-control::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* Searchable country dropdown overrides */
+body.light-landing-theme .country-dropdown-list {
+  background-color: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+body.light-landing-theme .country-item {
+  color: #334155 !important;
+  background-color: transparent !important;
+}
+
+body.light-landing-theme .country-item:hover {
+  background-color: rgba(37, 99, 235, 0.08) !important;
+  color: #2563EB !important;
+}
+
+body.light-landing-theme .input-group-text {
+  background-color: #F1F5F9 !important;
+  border-color: #CBD5E1 !important;
+  color: #64748B !important;
+}
+
+/* Trust Stat Cards style */
+body.light-landing-theme .light-stat-card {
+  background-color: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 16px !important;
+  padding: 20px 24px !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02) !important;
+  transition: all 0.3s ease;
+}
+
+body.light-landing-theme .light-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06) !important;
+  border-color: rgba(20, 184, 166, 0.3) !important;
+}
+
+body.light-landing-theme .light-stat-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: rgba(37, 99, 235, 0.08) !important;
+  color: #2563EB !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+body.light-landing-theme .light-stat-number {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0F172A !important;
+  margin-bottom: 2px;
+}
+
+body.light-landing-theme .light-stat-label {
+  font-size: 0.85rem;
+  color: #64748B !important;
+  font-weight: 500;
+}
+
+/* Academic Programs light style cards */
+body.light-landing-theme .light-program-card {
+  background-color: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 20px !important;
+  padding: 30px !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02) !important;
+}
+
+body.light-landing-theme .light-program-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #2563EB, #14B8A6);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+body.light-landing-theme .light-program-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 35px rgba(15, 23, 42, 0.06) !important;
+  border-color: rgba(37, 99, 235, 0.2) !important;
+}
+
+body.light-landing-theme .light-program-card:hover::before {
+  transform: scaleX(1);
+}
+
+body.light-landing-theme .light-program-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background-color: rgba(37, 99, 235, 0.08) !important;
+  color: #2563EB !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+body.light-landing-theme .light-program-card:hover .light-program-icon {
+  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 100%) !important;
+  color: #FFFFFF !important;
+  transform: scale(1.05) rotate(3deg);
+}
+
+body.light-landing-theme .light-program-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #14B8A6 !important;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+body.light-landing-theme .light-program-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0F172A !important;
+  margin-bottom: 12px;
+}
+
+body.light-landing-theme .light-program-description {
+  font-size: 0.9rem;
+  color: #475569 !important;
+  line-height: 1.6;
+}
+
+/* Why Choose Us features light overrides */
+body.light-landing-theme .light-feature-card {
+  background-color: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 20px !important;
+  padding: 30px !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02) !important;
+  transition: all 0.3s ease;
+}
+
+body.light-landing-theme .light-feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(15, 23, 42, 0.05) !important;
+  border-color: rgba(20, 184, 166, 0.3) !important;
+}
+
+body.light-landing-theme .light-feature-icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: rgba(20, 184, 166, 0.08) !important;
+  color: #14B8A6 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  margin-bottom: 16px;
+}
+
+/* Stepper Journey light overrides */
+body.light-landing-theme .light-journey-step-item {
+  background-color: #F8FAFC !important;
+  border: 2px solid rgba(37, 99, 235, 0.15) !important;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #2563EB !important;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.03);
+}
+
+body.light-landing-theme .journey-step-card:hover .light-journey-step-item {
+  background: linear-gradient(135deg, #2563EB 0%, #14B8A6 100%) !important;
+  color: #FFFFFF !important;
+  border-color: transparent !important;
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.2) !important;
+}
+
+/* Testimonial light card */
+body.light-landing-theme .light-testimonial-card {
+  background-color: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 20px !important;
+  padding: 35px !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02) !important;
+  transition: all 0.3s ease;
+}
+
+body.light-landing-theme .light-testimonial-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(15, 23, 42, 0.05) !important;
+}
+
+body.light-landing-theme .light-testimonial-quote-icon {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 2.5rem;
+  color: rgba(15, 23, 42, 0.02) !important;
+  pointer-events: none;
+  font-family: Georgia, serif;
+}
+
+body.light-landing-theme .testimonial-quote-icon {
+  color: rgba(15, 23, 42, 0.02) !important;
+}
+
+body.light-landing-theme .light-testimonial-text {
+  font-size: 0.95rem;
+  color: #475569 !important;
+  line-height: 1.7;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+body.light-landing-theme .light-testimonial-author {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0F172A !important;
+}
+
+body.light-landing-theme .light-testimonial-role {
+  font-size: 0.8rem;
+  color: #64748B !important;
+}
+
+body.light-landing-theme .avatar-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+
+body.light-landing-theme .bg-soft-blue {
+  background-color: rgba(37, 99, 235, 0.08) !important;
+  color: #2563EB !important;
+}
+
+body.light-landing-theme .bg-soft-teal {
+  background-color: rgba(20, 184, 166, 0.08) !important;
+  color: #14B8A6 !important;
+}
+
+body.light-landing-theme .bg-soft-purple {
+  background-color: rgba(139, 92, 246, 0.08) !important;
+  color: #8B5CF6 !important;
+}
+
+/* Layout section paddings */
+body.light-landing-theme .section-subtitle-light {
+  color: #475569 !important;
+  font-size: 1.05rem;
+  max-width: 600px;
+  margin: 0 auto 45px auto;
+  line-height: 1.6;
+}
+
+body.light-landing-theme .grid-backdrop-light {
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.02) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(20, 184, 166, 0.02) 0%, transparent 40%) !important;
+}
+
+body.light-landing-theme footer {
+  background-color: #FFFFFF !important;
+  border-top: 1px solid #E2E8F0 !important;
+  color: #64748B !important;
+}
+
+body.light-landing-theme footer strong.text-info {
+  color: #2563EB !important;
+}
+
+/* ==========================================================================
+   ADMIN DASHBOARD LIGHT THEME (body.admin-theme)
+   Matches landing page palette: white bg, blue primary, navy headings
+   ========================================================================== */
+
+body.admin-theme {
+  background-color: #F8FAFC !important;
+  color: #334155 !important;
+}
+
+body.admin-theme h1,
+body.admin-theme h2,
+body.admin-theme h3,
+body.admin-theme h4,
+body.admin-theme h5,
+body.admin-theme h6 {
+  color: #0F172A !important;
+}
+
+body.admin-theme p,
+body.admin-theme span,
+body.admin-theme div {
+  color: inherit;
+}
+
+body.admin-theme .text-muted {
+  color: #64748B !important;
+}
+
+body.admin-theme .text-white,
+body.admin-theme .text-white-50 {
+  color: #334155 !important;
+}
+
+/* ---- Admin Navbar Light ---- */
+body.admin-theme .admin-navbar {
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  box-shadow: 0 1px 12px rgba(15, 23, 42, 0.06) !important;
+}
+
+body.admin-theme .admin-brand-name {
+  color: #0F172A !important;
+}
+
+body.admin-theme .admin-brand-sub {
+  color: #94A3B8 !important;
+}
+
+body.admin-theme .admin-user-name {
+  color: #0F172A !important;
+}
+
+body.admin-theme .admin-user-role {
+  color: #14B8A6 !important;
+}
+
+body.admin-theme .admin-logout-btn {
+  border-color: rgba(239, 68, 68, 0.25) !important;
+  color: #EF4444 !important;
+}
+
+body.admin-theme .admin-logout-btn:hover {
+  background-color: rgba(239, 68, 68, 0.06) !important;
+  color: #DC2626 !important;
+}
+
+/* ---- Sidebar Light ---- */
+body.admin-theme .sidebar {
+  background-color: #FFFFFF !important;
+  border-right: 1px solid #E2E8F0 !important;
+  box-shadow: 1px 0 10px rgba(15, 23, 42, 0.03) !important;
+}
+
+body.admin-theme .sidebar .text-white-50 {
+  color: #94A3B8 !important;
+  font-size: 0.7rem;
+  letter-spacing: 0.8px;
+}
+
+body.admin-theme .sidebar-btn {
+  color: #64748B !important;
+}
+
+body.admin-theme .sidebar-btn:hover {
+  background-color: #F1F5F9 !important;
+  color: #0F172A !important;
+  border-left-color: transparent !important;
+}
+
+body.admin-theme .sidebar-btn.active {
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.08) 0%, rgba(37, 99, 235, 0.01) 100%) !important;
+  color: #2563EB !important;
+  border-left-color: #2563EB !important;
+}
+
+body.admin-theme .sidebar-btn.text-danger {
+  color: #EF4444 !important;
+}
+
+body.admin-theme .sidebar-btn.text-danger:hover {
+  background-color: rgba(239, 68, 68, 0.06) !important;
+  color: #DC2626 !important;
+}
+
+/* ---- Main Content Area Light ---- */
+body.admin-theme .main-content {
+  background-color: #F8FAFC !important;
+  background-image: none !important;
+}
+
+/* ---- Glass Cards -> White Cards ---- */
+body.admin-theme .glass-card {
+  background: #FFFFFF !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 1px 8px rgba(15, 23, 42, 0.06), 0 4px 20px rgba(15, 23, 42, 0.03) !important;
+}
+
+body.admin-theme .glass-card:hover {
+  background: #FFFFFF !important;
+  border-color: rgba(37, 99, 235, 0.2) !important;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.09) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ---- Metric Cards ---- */
+body.admin-theme .metric-value {
+  color: #0F172A !important;
+}
+
+body.admin-theme .metric-value.text-white {
+  color: #0F172A !important;
+}
+
+body.admin-theme .metric-value.text-cyan,
+body.admin-theme .metric-value.text-success,
+body.admin-theme .metric-value.text-warning {
+  /* Keep original colors as accent */
+}
+
+body.admin-theme .metric-title {
+  color: #64748B !important;
+}
+
+/* ---- Recent Leads List Items ---- */
+body.admin-theme .bg-dark.bg-opacity-50 {
+  background-color: #F8FAFC !important;
+}
+
+body.admin-theme .border-secondary {
+  border-color: #E2E8F0 !important;
+}
+
+body.admin-theme .hover-glow {
+  border-color: #E2E8F0 !important;
+}
+
+body.admin-theme .hover-glow:hover {
+  border-color: rgba(37, 99, 235, 0.3) !important;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.07) !important;
+}
+
+/* ---- Lead action buttons ---- */
+body.admin-theme .btn-dark {
+  background-color: #F1F5F9 !important;
+  border-color: #E2E8F0 !important;
+  color: #334155 !important;
+}
+
+body.admin-theme .btn-dark.text-info {
+  color: #2563EB !important;
+}
+
+body.admin-theme .btn-dark.text-warning {
+  color: #D97706 !important;
+}
+
+body.admin-theme .btn-dark:hover {
+  background-color: #E2E8F0 !important;
+}
+
+/* ---- Form Controls in Admin ---- */
+body.admin-theme .form-control,
+body.admin-theme .form-select {
+  background-color: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #334155 !important;
+}
+
+body.admin-theme .form-control:focus,
+body.admin-theme .form-select:focus {
+  border-color: #2563EB !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+  color: #0F172A !important;
+}
+
+body.admin-theme .form-control::placeholder {
+  color: #94A3B8 !important;
+}
+
+body.admin-theme .input-group-text {
+  background-color: #F1F5F9 !important;
+  border-color: #CBD5E1 !important;
+  color: #64748B !important;
+}
+
+body.admin-theme label {
+  color: #334155 !important;
+}
+
+/* ---- Table ---- */
+body.admin-theme .table-custom th {
+  background-color: #F8FAFC !important;
+  color: #64748B !important;
+  border-bottom: 2px solid #E2E8F0 !important;
+}
+
+body.admin-theme .table-custom td {
+  color: #334155 !important;
+  border-bottom: 1px solid #F1F5F9 !important;
+}
+
+body.admin-theme .table-custom tr:hover td {
+  background-color: #F8FAFC !important;
+}
+
+/* ---- Alert Boxes ---- */
+body.admin-theme .alert-custom.alert-success-custom {
+  background-color: #ECFDF5 !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+  color: #047857 !important;
+}
+
+body.admin-theme .alert-custom.alert-danger-custom {
+  background-color: #FEF2F2 !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #B91C1C !important;
+}
+
+/* ---- Footer ---- */
+body.admin-theme footer {
+  background-color: #FFFFFF !important;
+  border-top: 1px solid #E2E8F0 !important;
+  color: #64748B !important;
+}
+
+body.admin-theme footer strong {
+  color: #2563EB !important;
+}
+
+/* ---- Country Dropdown ---- */
+body.admin-theme .country-dropdown-list {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1) !important;
+}
+
+body.admin-theme .country-item {
+  color: #334155 !important;
+}
+
+body.admin-theme .country-item:hover {
+  background-color: rgba(37, 99, 235, 0.06) !important;
+  color: #2563EB !important;
+}
+
+/* ---- Timeline Stepper (leadDetails) ---- */
+body.admin-theme .timeline-stepper {
+  border-left-color: #E2E8F0 !important;
+}
+
+body.admin-theme .timeline-marker {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
+body.admin-theme .timeline-content {
+  background: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+}
+
+body.admin-theme .timeline-step.active .timeline-content {
+  border-color: rgba(37, 99, 235, 0.3) !important;
+  background: rgba(37, 99, 235, 0.02) !important;
+}
+
+body.admin-theme .timeline-step.active .timeline-marker {
+  background: #2563EB !important;
+  border-color: rgba(37, 99, 235, 0.4) !important;
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.4) !important;
+}
+
+body.admin-theme .timeline-step.completed .timeline-marker {
+  background: #10B981 !important;
+  border-color: rgba(16, 185, 129, 0.4) !important;
+}
+
+body.admin-theme .timeline-title {
+  color: #0F172A !important;
+}
+
+/* ---- Outline Buttons ---- */
+body.admin-theme .btn-outline-custom {
+  border-color: #2563EB !important;
+  color: #2563EB !important;
+}
+
+body.admin-theme .btn-outline-custom:hover {
+  background: #2563EB !important;
+  color: #FFFFFF !important;
+}
+
+body.admin-theme .btn-outline-info {
+  border-color: rgba(37, 99, 235, 0.4) !important;
+  color: #2563EB !important;
+}
+
+body.admin-theme .btn-outline-info:hover {
+  background: #2563EB !important;
+  color: #FFFFFF !important;
+}
+
+/* ---- Navbar within sidebar layout ---- */
+body.admin-theme .navbar-text {
+  color: #94A3B8 !important;
+}
+
+/* ---- Sidebar-layout wrapper bg ---- */
+body.admin-theme .sidebar-layout {
+  background-color: #F8FAFC !important;
+}
+
+
+/* ==========================================================================
+   PREMIUM BUTTON & INTERACTION POLISH (Admin Theme)
+   ========================================================================== */
+
+/* Primary Gradient Button */
+body.admin-theme .btn-gradient {
+  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 10px 22px;
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: 0.2px;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3) !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+body.admin-theme .btn-gradient:hover {
+  background: linear-gradient(135deg, #1D4ED8 0%, #1E40AF 100%) !important;
+  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.45) !important;
+  transform: translateY(-2px) !important;
+  color: #FFFFFF !important;
+}
+
+body.admin-theme .btn-gradient:active {
+  transform: translateY(0px) !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3) !important;
+}
+
+/* Outline Blue Button */
+body.admin-theme .btn-outline-custom {
+  border: 1.5px solid #2563EB !important;
+  color: #2563EB !important;
+  background: transparent !important;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.2s ease !important;
+}
+
+body.admin-theme .btn-outline-custom:hover {
+  background: #2563EB !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Small View/Edit Buttons on Lead Cards */
+body.admin-theme .btn-sm {
+  border-radius: 8px !important;
+  font-size: 0.8rem !important;
+  transition: all 0.2s ease !important;
+}
+
+body.admin-theme .btn-sm:hover {
+  transform: translateY(-1px) !important;
+}
+
+/* Manage Button on Follow-up cards */
+body.admin-theme .btn-outline-info {
+  border: 1.5px solid rgba(37, 99, 235, 0.4) !important;
+  color: #2563EB !important;
+  background: transparent !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+  transition: all 0.2s ease !important;
+}
+
+body.admin-theme .btn-outline-info:hover {
+  background: #2563EB !important;
+  border-color: #2563EB !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
+}
+
+/* Delete/Danger Buttons */
+body.admin-theme .btn-danger,
+body.admin-theme .btn-outline-danger {
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+
+body.admin-theme .btn-danger {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%) !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3) !important;
+}
+
+body.admin-theme .btn-danger:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 18px rgba(239, 68, 68, 0.4) !important;
+}
+
+body.admin-theme .btn-outline-danger {
+  border: 1.5px solid rgba(239, 68, 68, 0.4) !important;
+  color: #EF4444 !important;
+}
+
+body.admin-theme .btn-outline-danger:hover {
+  background: #EF4444 !important;
+  color: #fff !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Success Buttons */
+body.admin-theme .btn-success {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3) !important;
+  transition: all 0.2s ease !important;
+}
+
+body.admin-theme .btn-success:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4) !important;
+}
+
+/* Warning Buttons */
+body.admin-theme .btn-warning {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3) !important;
+  transition: all 0.2s ease !important;
+}
+
+body.admin-theme .btn-warning:hover {
+  transform: translateY(-1px) !important;
+  color: #FFFFFF !important;
+}
+
+/* Secondary / Light Buttons */
+body.admin-theme .btn-secondary,
+body.admin-theme .btn-light {
+  background: #F1F5F9 !important;
+  border: 1.5px solid #E2E8F0 !important;
+  color: #334155 !important;
+  border-radius: 10px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+body.admin-theme .btn-secondary:hover,
+body.admin-theme .btn-light:hover {
+  background: #E2E8F0 !important;
+  border-color: #CBD5E1 !important;
+  transform: translateY(-1px) !important;
+}
+
+/* ==========================================================================
+   PREMIUM METRIC CARD COLORED ACCENTS
+   ========================================================================== */
+
+body.admin-theme .metric-card {
+  border-top: 3px solid transparent !important;
+  transition: all 0.3s ease !important;
+}
+
+body.admin-theme .col-md-4:nth-child(1) .metric-card,
+body.admin-theme .col-xl-2:nth-child(1) .metric-card {
+  border-top-color: #2563EB !important;
+}
+
+body.admin-theme .col-md-4:nth-child(2) .metric-card,
+body.admin-theme .col-xl-2:nth-child(2) .metric-card {
+  border-top-color: #06B6D4 !important;
+}
+
+body.admin-theme .col-md-4:nth-child(3) .metric-card,
+body.admin-theme .col-xl-2:nth-child(3) .metric-card {
+  border-top-color: #8B5CF6 !important;
+}
+
+body.admin-theme .col-md-4:nth-child(4) .metric-card,
+body.admin-theme .col-xl-2:nth-child(4) .metric-card {
+  border-top-color: #60A5FA !important;
+}
+
+body.admin-theme .col-md-4:nth-child(5) .metric-card,
+body.admin-theme .col-xl-2:nth-child(5) .metric-card {
+  border-top-color: #10B981 !important;
+}
+
+body.admin-theme .col-md-4:nth-child(6) .metric-card,
+body.admin-theme .col-xl-2:nth-child(6) .metric-card {
+  border-top-color: #F59E0B !important;
+}
+
+/* ==========================================================================
+   SIDEBAR ACTIVE ITEM POLISH
+   ========================================================================== */
+
+body.admin-theme .sidebar-btn.active {
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.09) 0%, rgba(37, 99, 235, 0.01) 100%) !important;
+  color: #2563EB !important;
+  border-left-color: #2563EB !important;
+  font-weight: 700 !important;
+}
+
+body.admin-theme .sidebar-btn.active i {
+  color: #2563EB !important;
+}
+
+/* ==========================================================================
+   FORM INPUTS FOCUS ANIMATION
+   ========================================================================== */
+
+body.admin-theme .form-control,
+body.admin-theme .form-select {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+body.admin-theme .form-control:focus,
+body.admin-theme .form-select:focus {
+  border-color: #2563EB !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), 0 1px 4px rgba(37, 99, 235, 0.08) !important;
+}
+
+/* ==========================================================================
+   BADGE POLISH
+   ========================================================================== */
+
+body.admin-theme .badge-custom {
+  font-size: 0.72rem !important;
+  padding: 4px 10px !important;
+  border-radius: 20px !important;
+}
+
+/* Admitted badge glow */
+body.admin-theme .badge-admitted {
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.25) !important;
+}
+
+/* Rejected badge */
+body.admin-theme .badge-rejected {
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.2) !important;
+}

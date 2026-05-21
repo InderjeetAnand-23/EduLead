@@ -1,0 +1,238 @@
+<%- include('partials/header') %>
+
+<style>
+  /* Force light theme on all inquiry form inputs */
+  .inquiry-form .form-control,
+  .inquiry-form .form-select {
+    background-color: #FFFFFF !important;
+    border: 1.5px solid #E2E8F0 !important;
+    color: #0F172A !important;
+    border-radius: 0 8px 8px 0 !important;
+  }
+  .inquiry-form .form-control:focus,
+  .inquiry-form .form-select:focus {
+    border-color: #2563EB !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+    background-color: #FFFFFF !important;
+  }
+  .inquiry-form .form-control::placeholder,
+  .inquiry-form .form-select::placeholder {
+    color: #94A3B8 !important;
+  }
+  .inquiry-form .input-group-text {
+    background-color: #F1F5F9 !important;
+    border: 1.5px solid #E2E8F0 !important;
+    color: #64748B !important;
+    border-right: none !important;
+  }
+  .inquiry-form .btn-outline-secondary {
+    background-color: #F1F5F9 !important;
+    border: 1.5px solid #E2E8F0 !important;
+    border-left: none !important;
+    color: #64748B !important;
+  }
+  .inquiry-form textarea.form-control {
+    border-radius: 10px !important;
+    background-color: #FFFFFF !important;
+    color: #0F172A !important;
+    border: 1.5px solid #E2E8F0 !important;
+  }
+  .inquiry-form textarea.form-control:focus {
+    border-color: #2563EB !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+  }
+  .inquiry-form .form-label {
+    color: #374151 !important;
+    font-size: 0.875rem !important;
+  }
+  .country-dropdown-list {
+    background-color: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1) !important;
+  }
+  .country-item {
+    color: #334155 !important;
+  }
+  .country-item:hover {
+    background-color: rgba(37, 99, 235, 0.07) !important;
+    color: #2563EB !important;
+  }
+</style>
+
+<section class="min-vh-100 py-5" style="background: linear-gradient(145deg, #F0F4FF 0%, #F8FAFC 60%, #F0FDF9 100%); padding-top: 90px !important;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-xl-7">
+
+        <!-- Page Header -->
+        <div class="text-center mb-5">
+          <span class="badge px-3 py-2 fw-semibold rounded-pill mb-3"
+                style="color: #2563EB; background-color: rgba(37, 99, 235, 0.08); font-size: 0.82rem; letter-spacing: 0.3px;">
+            Academic Inquiry Form
+          </span>
+          <h1 class="fw-extrabold mb-2"
+              style="font-family: 'Outfit', sans-serif; color: #0F172A; font-size: 2rem; letter-spacing: -0.3px;">
+            Start Your Journey Today
+          </h1>
+          <p style="color: #64748B; font-size: 0.95rem; max-width: 480px; margin: 0 auto; line-height: 1.6;">
+            Welcome, <strong style="color: #0F172A;"><%= student.fullName %></strong>! Complete the form below and a senior counsellor will reach out within 24 hours.
+          </p>
+        </div>
+
+        <!-- Alerts -->
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="d-flex align-items-center gap-2 mb-4 px-4 py-3"
+               style="background: #FEF2F2; border-radius: 12px; border-left: 4px solid #EF4444;">
+            <i class="bi bi-exclamation-circle-fill" style="color: #EF4444; flex-shrink:0;"></i>
+            <span style="color: #B91C1C; font-size: 0.875rem;"><%= error %></span>
+          </div>
+        <% } %>
+        <% if (typeof success !== 'undefined' && success) { %>
+          <div class="d-flex align-items-center gap-2 mb-4 px-4 py-3"
+               style="background: #ECFDF5; border-radius: 12px; border-left: 4px solid #10B981;">
+            <i class="bi bi-check-circle-fill" style="color: #10B981; flex-shrink:0;"></i>
+            <span style="color: #047857; font-size: 0.875rem;"><%= success %></span>
+          </div>
+        <% } %>
+
+        <!-- Form Card -->
+        <div style="background: #FFFFFF; border-radius: 24px; padding: 40px; box-shadow: 0 4px 6px rgba(15,23,42,0.04), 0 16px 48px rgba(15,23,42,0.07);">
+          <form action="/inquire" method="POST" class="inquiry-form">
+
+            <!-- Auto-filled Student Info -->
+            <div class="mb-5 p-4 rounded-3"
+                 style="background: rgba(37, 99, 235, 0.04); border: 1px solid rgba(37, 99, 235, 0.1);">
+              <p class="fw-semibold mb-3 small text-uppercase"
+                 style="color: #2563EB; letter-spacing: 0.6px; font-size: 0.78rem;">
+                <i class="bi bi-person-check-fill me-1"></i> Your Registered Details (Auto-filled)
+              </p>
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label class="form-label small fw-semibold" style="color: #64748B;">Full Name</label>
+                  <input type="text" class="form-control" name="fullName"
+                         value="<%= student.fullName %>" readonly
+                         style="background: #FFFFFF !important; border: 1.5px solid #E2E8F0; color: #475569; border-radius: 8px;">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label small fw-semibold" style="color: #64748B;">Email Address</label>
+                  <input type="email" class="form-control" name="email"
+                         value="<%= student.email %>" readonly
+                         style="background: #FFFFFF !important; border: 1.5px solid #E2E8F0; color: #475569; border-radius: 8px;">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label small fw-semibold" style="color: #64748B;">Phone Number</label>
+                  <input type="tel" class="form-control" name="phone"
+                         value="<%= student.phone %>" readonly
+                         style="background: #FFFFFF !important; border: 1.5px solid #E2E8F0; color: #475569; border-radius: 8px;">
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-4 mb-4">
+              <!-- Country -->
+              <div class="col-md-6" style="position: relative;">
+                <label for="country" class="form-label fw-semibold">
+                  Country of Residence <span class="text-danger">*</span>
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                  <input type="text" class="form-control country-search-input" id="country" name="country"
+                         placeholder="Search or select country..." autocomplete="off" required>
+                  <button class="btn btn-outline-secondary dropdown-toggle-btn border-start-0"
+                          type="button" tabindex="-1">
+                    <i class="bi bi-chevron-down small"></i>
+                  </button>
+                </div>
+                <div class="country-dropdown-list p-2" style="position: absolute; width: 100%; z-index: 1050; display: none;">
+                  <div class="country-no-results text-muted p-2 small" style="display: none;">No matching countries found</div>
+                </div>
+              </div>
+
+              <!-- Course of Interest -->
+              <div class="col-md-6">
+                <label for="courseInterested" class="form-label fw-semibold">
+                  Course of Interest <span class="text-danger">*</span>
+                </label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-book"></i></span>
+                  <select class="form-select" id="courseInterested" name="courseInterested" required>
+                    <option value="" disabled selected>Select a program</option>
+                    <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+                    <option value="Data Science & AI">Data Science & AI</option>
+                    <option value="Business Administration">Business Administration</option>
+                    <option value="Biotechnology">Biotechnology</option>
+                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                    <option value="Information Technology">Information Technology</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-4 mb-4">
+              <!-- Qualification -->
+              <div class="col-md-6">
+                <label for="qualification" class="form-label fw-semibold">Highest Qualification</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-mortarboard"></i></span>
+                  <input type="text" class="form-control" id="qualification" name="qualification"
+                         placeholder="e.g. High School, Bachelor's">
+                </div>
+              </div>
+              <!-- Budget -->
+              <div class="col-md-6">
+                <label for="budget" class="form-label fw-semibold">Annual Tuition Budget (USD)</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
+                  <input type="text" class="form-control" id="budget" name="budget"
+                         placeholder="e.g. $10,000 - $15,000">
+                </div>
+              </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="mb-5">
+              <label for="notes" class="form-label fw-semibold">Additional Consultation Notes</label>
+              <textarea class="form-control" id="notes" name="notes" rows="3"
+                        placeholder="Tell us more about your career aspirations or scholarship preferences..."></textarea>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit"
+                    class="btn w-100 py-3 fw-bold d-flex align-items-center justify-content-center gap-2"
+                    style="font-size: 1rem; border-radius: 12px; background: linear-gradient(135deg, #2563EB, #1D4ED8); border: none; color: #fff; box-shadow: 0 4px 16px rgba(37,99,235,0.35); transition: all 0.2s ease;">
+              <i class="bi bi-check-circle-fill"></i> Submit Academic Inquiry
+            </button>
+
+            <p class="text-center mt-3" style="color: #94A3B8; font-size: 0.8rem;">
+              <i class="bi bi-shield-check me-1 text-success"></i>
+              Your data is secure. We never share your details with third parties.
+            </p>
+
+          </form>
+        </div>
+
+        <!-- Back link -->
+        <div class="text-center mt-4">
+          <a href="/" class="text-decoration-none" style="color: #94A3B8; font-size: 0.875rem;">
+            <i class="bi bi-arrow-left me-1"></i> Back to Home
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const params = new URLSearchParams(window.location.search);
+    const program = params.get('program');
+    if (program) {
+      const select = document.getElementById('courseInterested');
+      if (select) select.value = program;
+    }
+  });
+</script>
+
+<%- include('partials/footer') %>

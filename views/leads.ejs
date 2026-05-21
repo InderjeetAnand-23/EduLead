@@ -1,0 +1,213 @@
+<%- include('partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+  <div>
+    <h2 class="fw-bold mb-1">Student Lead Records</h2>
+    <p class="text-muted mb-0">Search, filter, edit, and organize counselor assignment inquiries.</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a href="/leads/export" class="btn btn-outline-custom d-flex align-items-center gap-2">
+      <i class="bi bi-file-earmark-spreadsheet text-success"></i>
+      <span>Export CSV</span>
+    </a>
+    <a href="/leads/add" class="btn btn-gradient d-flex align-items-center gap-2">
+      <i class="bi bi-person-plus-fill"></i>
+      <span>Add New Lead</span>
+    </a>
+  </div>
+</div>
+
+<!-- Search & Filtering Toolbar -->
+<div class="card glass-card p-4 border-0 mb-4">
+  <form action="/leads" method="GET" class="row g-3 align-items-end">
+    
+    <!-- 1. Search Query -->
+    <div class="col-md-4">
+      <label for="search" class="form-label">
+        <i class="bi bi-search me-1 text-muted"></i> Search Keywords
+      </label>
+      <input type="text" class="form-control" id="search" name="search"
+             placeholder="Name, Email, Phone, Country, Course..."
+             value="<%= filters.search %>">
+    </div>
+
+    <!-- 2. Status Select -->
+    <div class="col-md-3 col-sm-6">
+      <label for="status" class="form-label">
+        <i class="bi bi-funnel-fill me-1 text-muted"></i> Status Filter
+      </label>
+      <select class="form-select" id="status" name="status">
+        <option value="">All Statuses</option>
+        <option value="New Inquiry"           <%= filters.status === 'New Inquiry'           ? 'selected' : '' %>>New Inquiry</option>
+        <option value="Contacted"             <%= filters.status === 'Contacted'             ? 'selected' : '' %>>Contacted</option>
+        <option value="Interested"            <%= filters.status === 'Interested'            ? 'selected' : '' %>>Interested</option>
+        <option value="Documents Pending"     <%= filters.status === 'Documents Pending'     ? 'selected' : '' %>>Documents Pending</option>
+        <option value="Documents Verified"    <%= filters.status === 'Documents Verified'    ? 'selected' : '' %>>Documents Verified</option>
+        <option value="Application Submitted" <%= filters.status === 'Application Submitted' ? 'selected' : '' %>>Application Submitted</option>
+        <option value="Offer Letter Issued"   <%= filters.status === 'Offer Letter Issued'   ? 'selected' : '' %>>Offer Letter Issued</option>
+        <option value="Fee Pending"           <%= filters.status === 'Fee Pending'           ? 'selected' : '' %>>Fee Pending</option>
+        <option value="Admitted"              <%= filters.status === 'Admitted'              ? 'selected' : '' %>>Admitted</option>
+        <option value="Rejected"              <%= filters.status === 'Rejected'              ? 'selected' : '' %>>Rejected</option>
+        <option value="Not Interested"        <%= filters.status === 'Not Interested'        ? 'selected' : '' %>>Not Interested</option>
+      </select>
+    </div>
+
+    <!-- 3. Course Select -->
+    <div class="col-md-3 col-sm-6">
+      <label for="course" class="form-label">
+        <i class="bi bi-book-fill me-1 text-muted"></i> Program Filter
+      </label>
+      <select class="form-select" id="course" name="course">
+        <option value="">All Courses</option>
+        <% if (typeof distinctCourses !== 'undefined' && distinctCourses.length > 0) { %>
+          <% distinctCourses.forEach(courseName => { %>
+            <option value="<%= courseName %>" <%= filters.course === courseName ? 'selected' : '' %>><%= courseName %></option>
+          <% }) %>
+        <% } %>
+      </select>
+    </div>
+
+    <!-- 4. Submit buttons -->
+    <div class="col-md-2 d-flex gap-2">
+      <button type="submit" class="btn btn-gradient w-100 py-2">
+        <i class="bi bi-funnel"></i> Filter
+      </button>
+      <a href="/leads" class="btn btn-secondary w-100 py-2" title="Reset Filters">
+        <i class="bi bi-arrow-counterclockwise"></i>
+      </a>
+    </div>
+
+  </form>
+</div>
+
+<!-- Table Output of Leads -->
+<div class="card glass-card border-0 overflow-hidden">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0" style="background: transparent;">
+      <thead style="background: #F8FAFC; border-bottom: 2px solid #E2E8F0;">
+        <tr>
+          <th style="color: #64748B; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; padding: 14px 16px;">Student Details</th>
+          <th style="color: #64748B; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; padding: 14px 16px;">Location & Qualification</th>
+          <th style="color: #64748B; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; padding: 14px 16px;">Course of Interest</th>
+          <th style="color: #64748B; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; padding: 14px 16px;">Admission Status</th>
+          <th style="color: #64748B; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; padding: 14px 16px;">Follow-up</th>
+          <th class="text-end" style="color: #64748B; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; padding: 14px 16px;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (leads && leads.length > 0) { %>
+          <% leads.forEach(lead => { %>
+            <tr style="border-bottom: 1px solid #F1F5F9; transition: background 0.15s ease;"
+                onmouseover="this.style.background='#F8FAFC'"
+                onmouseout="this.style.background='transparent'">
+              
+              <!-- 1. Student Name & Email & Phone -->
+              <td style="padding: 14px 16px; vertical-align: middle;">
+                <div class="fw-semibold" style="color: #0F172A; font-size: 0.95rem;"><%= lead.fullName %></div>
+                <div class="small mt-1" style="color: #64748B;">
+                  <i class="bi bi-envelope me-1"></i><%= lead.email %>
+                </div>
+                <div class="small" style="color: #2563EB; font-family: monospace;">
+                  <i class="bi bi-telephone me-1"></i><%= lead.phone %>
+                </div>
+              </td>
+              
+              <!-- 2. Location & Last Qualification -->
+              <td style="padding: 14px 16px; vertical-align: middle;">
+                <div style="color: #334155;">
+                  <i class="bi bi-geo-alt me-1" style="color: #EF4444;"></i><%= lead.country %>
+                </div>
+                <div class="small mt-1" style="color: #64748B;">
+                  <i class="bi bi-mortarboard me-1"></i><%= lead.qualification || 'Not provided' %>
+                </div>
+              </td>
+
+              <!-- 3. Course Interested -->
+              <td style="padding: 14px 16px; vertical-align: middle;">
+                <div class="fw-medium" style="color: #0F172A;"><%= lead.courseInterested %></div>
+                <div class="small mt-1" style="color: #64748B;">Budget: <%= lead.budget || 'N/A' %></div>
+              </td>
+
+              <!-- 4. Admission Status Badge -->
+              <td style="padding: 14px 16px; vertical-align: middle;">
+                <span class="badge-custom <%=
+                  lead.status === 'New Inquiry'           ? 'badge-new-inquiry' :
+                  lead.status === 'Contacted'             ? 'badge-contacted' :
+                  lead.status === 'Interested'            ? 'badge-interested' :
+                  lead.status === 'Documents Pending'     ? 'badge-documents-pending' :
+                  lead.status === 'Documents Verified'    ? 'badge-documents-verified' :
+                  lead.status === 'Application Submitted' ? 'badge-application-submitted' :
+                  lead.status === 'Offer Letter Issued'   ? 'badge-offer-letter-issued' :
+                  lead.status === 'Fee Pending'           ? 'badge-fee-pending' :
+                  lead.status === 'Admitted'              ? 'badge-admitted' :
+                  lead.status === 'Rejected'              ? 'badge-rejected' : 'badge-not-interested'
+                %>">
+                  <%= lead.status %>
+                </span>
+              </td>
+
+              <!-- 5. Scheduled Follow-up -->
+              <td style="padding: 14px 16px; vertical-align: middle;">
+                <% if (lead.followUpDate) { %>
+                  <%
+                    const followDate = new Date(lead.followUpDate);
+                    const isOverdue = followDate < new Date() && lead.status !== 'Admitted' && lead.status !== 'Rejected' && lead.status !== 'Not Interested';
+                  %>
+                  <div class="small fw-medium" style="color: <%= isOverdue ? '#EF4444' : '#D97706' %>;">
+                    <i class="bi <%= isOverdue ? 'bi-exclamation-triangle-fill' : 'bi-calendar-check' %> me-1"></i>
+                    <%= followDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                  </div>
+                <% } else { %>
+                  <span class="small" style="color: #94A3B8;">Not scheduled</span>
+                <% } %>
+              </td>
+
+              <!-- 6. Action Buttons -->
+              <td class="text-end" style="padding: 14px 16px; vertical-align: middle;">
+                <div class="d-inline-flex gap-2">
+                  <a href="/leads/<%= lead._id %>" 
+                     class="btn btn-sm"
+                     title="View details"
+                     style="background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.2); color: #2563EB; border-radius: 8px; width: 32px; height: 32px; display:inline-flex; align-items:center; justify-content:center; transition: all 0.2s;"
+                     onmouseover="this.style.background='#2563EB'; this.style.color='#fff';"
+                     onmouseout="this.style.background='rgba(37,99,235,0.08)'; this.style.color='#2563EB';">
+                    <i class="bi bi-eye"></i>
+                  </a>
+                  <a href="/leads/<%= lead._id %>/edit"
+                     class="btn btn-sm"
+                     title="Edit details"
+                     style="background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); color: #D97706; border-radius: 8px; width: 32px; height: 32px; display:inline-flex; align-items:center; justify-content:center; transition: all 0.2s;"
+                     onmouseover="this.style.background='#D97706'; this.style.color='#fff';"
+                     onmouseout="this.style.background='rgba(245,158,11,0.08)'; this.style.color='#D97706';">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                  <form action="/leads/<%= lead._id %>?_method=DELETE" method="POST" class="d-inline"
+                        onsubmit="return confirm('Are you sure you want to permanently delete lead <%= lead.fullName %>?');">
+                    <button type="submit"
+                            class="btn btn-sm"
+                            title="Delete lead"
+                            style="background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); color: #EF4444; border-radius: 8px; width: 32px; height: 32px; display:inline-flex; align-items:center; justify-content:center; transition: all 0.2s;"
+                            onmouseover="this.style.background='#EF4444'; this.style.color='#fff';"
+                            onmouseout="this.style.background='rgba(239,68,68,0.08)'; this.style.color='#EF4444';">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </form>
+                </div>
+              </td>
+
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="6" class="text-center py-5" style="color: #94A3B8;">
+              <i class="bi bi-folder-x d-block mb-3" style="font-size: 2.5rem; color: #CBD5E1;"></i>
+              <span>No matching student records found. Change search keywords or add new leads manually.</span>
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

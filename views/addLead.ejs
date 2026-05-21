@@ -1,0 +1,166 @@
+<%- include('partials/header') %>
+
+<div class="mb-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent p-0 mb-2">
+      <li class="breadcrumb-item"><a href="/dashboard" class="text-cyan text-decoration-none">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="/leads" class="text-cyan text-decoration-none">Leads</a></li>
+      <li class="breadcrumb-item active text-white" aria-current="page">Add Lead</li>
+    </ol>
+  </nav>
+  <h2 class="fw-bold mb-1"><i class="bi bi-person-plus-fill me-2 text-cyan"></i>Add New Lead</h2>
+  <p class="text-muted mb-0">Manually insert details for walk-in students, phone inquiries, or event leads.</p>
+</div>
+
+<% if (error) { %>
+  <div class="alert alert-custom alert-danger-custom alert-dismissible fade show mb-4" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i> <%= error %>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>
+
+<div class="card glass-card p-4 border-0 mb-5 shadow-lg">
+  <form action="/leads" method="POST">
+    
+    <!-- 1. Core Profile Details Section -->
+    <h5 class="fw-bold mb-3 text-cyan border-bottom border-secondary pb-2"><i class="bi bi-person-bounding-box me-2"></i>Personal Profile Details</h5>
+    
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <label for="fullName">Student Full Name <span class="text-danger">*</span></label>
+        <div class="input-group">
+          <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-person"></i></span>
+          <input type="text" class="form-control bg-dark text-white border-secondary" id="fullName" name="fullName" placeholder="e.g. Liam Smith" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="email">Email Address <span class="text-danger">*</span></label>
+        <div class="input-group">
+          <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-envelope"></i></span>
+          <input type="email" class="form-control bg-dark text-white border-secondary" id="email" name="email" placeholder="liam@example.com" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <label for="phone">Phone / Mobile Number <span class="text-danger">*</span></label>
+        <div class="input-group">
+          <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-telephone"></i></span>
+          <input type="tel" class="form-control bg-dark text-white border-secondary" id="phone" name="phone" placeholder="+91 98765 43210" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="country">Country of Residence <span class="text-danger">*</span></label>
+        <div class="country-select-container">
+          <div class="input-group">
+            <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-geo-alt"></i></span>
+            <input type="text" 
+                   class="form-control bg-dark text-white border-secondary country-search-input" 
+                   id="country" 
+                   name="country" 
+                   placeholder="Search or select country..." 
+                   autocomplete="off" 
+                   required>
+            <button class="btn btn-outline-secondary border-secondary bg-dark text-muted dropdown-toggle-btn" type="button" tabindex="-1">
+              <i class="bi bi-chevron-down small"></i>
+            </button>
+          </div>
+          <div class="country-dropdown-list shadow-lg p-2">
+            <div class="country-no-results text-muted p-2 small" style="display: none;">No matching countries found</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Academic & Admission Details Section -->
+    <h5 class="fw-bold mb-3 text-cyan border-bottom border-secondary pb-2 mt-4"><i class="bi bi-mortarboard me-2"></i>Academic & Admissions Context</h5>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <label for="courseInterested">Course of Interest <span class="text-danger">*</span></label>
+        <div class="input-group">
+          <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-book"></i></span>
+          <select class="form-select bg-dark text-white border-secondary" id="courseInterested" name="courseInterested" required>
+            <option value="" disabled selected>Select a program</option>
+            <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+            <option value="Data Science & AI">Data Science & AI</option>
+            <option value="Business Administration">Business Administration</option>
+            <option value="Biotechnology">Biotechnology</option>
+            <option value="Mechanical Engineering">Mechanical Engineering</option>
+            <option value="Information Technology">Information Technology</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="qualification">Highest Educational Qualification</label>
+        <input type="text" class="form-control bg-dark text-white border-secondary" id="qualification" name="qualification" placeholder="e.g. B.Sc Computer Science, High School Diploma">
+      </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <label for="budget">Annual Tuition Budget (USD)</label>
+        <div class="input-group">
+          <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-currency-dollar"></i></span>
+          <input type="text" class="form-control bg-dark text-white border-secondary" id="budget" name="budget" placeholder="e.g. $10,000 - $15,000">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="leadSource">Lead Source</label>
+        <select class="form-select bg-dark text-white border-secondary" id="leadSource" name="leadSource">
+          <option value="Manual Entry" selected>Manual Entry</option>
+          <option value="Direct Walk-in">Direct Walk-in</option>
+          <option value="Phone Inquiry">Phone Inquiry</option>
+          <option value="Educational Fair">Educational Fair</option>
+          <option value="Email Newsletter">Email Newsletter</option>
+          <option value="Social Media Campaign">Social Media Campaign</option>
+          <option value="Agency Referral">Agency Referral</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 3. EduLead Counsellor Assignment & Action Reminders -->
+    <h5 class="fw-bold mb-3 text-cyan border-bottom border-secondary pb-2 mt-4"><i class="bi bi-alarm me-2"></i>Workspace Actions</h5>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <label for="status">Initial Lead Status</label>
+        <select class="form-select bg-dark text-white border-secondary" id="status" name="status">
+          <option value="New Inquiry" selected>New Inquiry</option>
+          <option value="Contacted">Contacted</option>
+          <option value="Interested">Interested</option>
+          <option value="Documents Pending">Documents Pending</option>
+          <option value="Documents Verified">Documents Verified</option>
+          <option value="Application Submitted">Application Submitted</option>
+          <option value="Offer Letter Issued">Offer Letter Issued</option>
+          <option value="Fee Pending">Fee Pending</option>
+          <option value="Admitted">Admitted</option>
+          <option value="Rejected">Rejected</option>
+          <option value="Not Interested">Not Interested</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="followUpDate">Schedule Follow-up Date</label>
+        <div class="input-group">
+          <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-calendar-event"></i></span>
+          <input type="date" class="form-control bg-dark text-white border-secondary" id="followUpDate" name="followUpDate">
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="notes">Counselor Counseling Notes</label>
+      <textarea class="form-control bg-dark text-white border-secondary" id="notes" name="notes" rows="4" placeholder="Enter conversation details, remarks, documents outstanding, next steps..."></textarea>
+    </div>
+
+    <!-- Form Submit and Cancellation -->
+    <div class="d-flex justify-content-end gap-3 border-top border-secondary pt-3">
+      <a href="/leads" class="btn btn-outline-secondary text-white border-secondary px-4">Cancel</a>
+      <button type="submit" class="btn btn-gradient px-4"><i class="bi bi-check-circle me-1"></i>Create Student Record</button>
+    </div>
+
+  </form>
+</div>
+
+<%- include('partials/footer') %>
