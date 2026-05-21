@@ -146,35 +146,35 @@ const seedDatabase = async () => {
     const connStr = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/admission-crm';
     console.log(`Connecting to database for seeding: ${connStr}`);
     await mongoose.connect(connStr);
-    
+
     // 1. Clear existing data
     console.log('Clearing existing collections...');
     await Admin.deleteMany({});
     await Lead.deleteMany({});
-    
+
     // 2. Create Default Admin Credentials
     console.log('Creating demo admin account...');
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash('admin123', salt);
-    
+
     const demoAdmin = new Admin({
-      username: 'admin',
-      email: 'admin@edulead.com',
+      username: 'vansh',
+      email: 'vansh@gmail.com',
       password: hashedPassword
     });
     await demoAdmin.save();
-    
+
     // 3. Create Mock Leads
     console.log(`Seeding ${mockLeads.length} realistic student lead profiles...`);
     await Lead.insertMany(mockLeads);
-    
+
     console.log('\n======================================================');
     console.log('✨ DATABASE SEEDING COMPLETED SUCCESSFULLY! ✨');
     console.log('You can now log in using these credentials:');
-    console.log('👉 Corporate Email:  admin@edulead.com');
+    console.log('👉 Corporate Email:  vansh@gmail.com');
     console.log('👉 Secure Password:   admin123');
     console.log('======================================================');
-    
+
   } catch (error) {
     console.error('Error seeding database:', error);
   } finally {
