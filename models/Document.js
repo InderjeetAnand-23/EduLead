@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const jsonDb = require('../config/jsonDb');
 
 const documentSchema = new mongoose.Schema({
   studentId: {
@@ -49,4 +50,22 @@ const documentSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Document', documentSchema);
+const MongooseDocument = mongoose.model('Document', documentSchema);
+
+// Wrapper proxy that intercepts database operations for fallback JSON database
+const DocumentProxy = new Proxy(MongooseDocument, {
+  get(target, prop, receiver) {
+    if (global.dbMode === 'jsonfile') {
+      return Reflect.get(jsonDb.Document, prop, receiver);
+    }
+    return Reflect.get(target, prop, receiver);
+  },
+  construct(target, args, newTarget) {
+    if (global.dbMode === 'jsonfile') {
+      return Reflect.construct(jsonDb.Document, args, newTarget);
+    }
+    return Reflect.construct(target, args, newTarget);
+  }
+});
+
+module.exports = DocumentProxy;

@@ -15,13 +15,36 @@
   "O3UqEn0nqNpqzuBtPNDCe3-yxUdUZNWD": {
     "cookie": {
       "originalMaxAge": 86400000,
-      "expires": "2026-05-22T18:18:51.199Z",
+      "expires": "2026-05-22T20:26:35.982Z",
       "secure": false,
       "httpOnly": true,
       "path": "/"
     },
     "adminId": "6a0f43a37f81142651b1bf3b",
     "adminUsername": "vansh",
+    "adminEmail": "vansh@gmail.com",
+    "redirectTo": "/dashboard"
+  },
+  "xjbFyzp6O77XejItMZQCGMLskvykIgzn": {
+    "cookie": {
+      "originalMaxAge": 86400000,
+      "expires": "2026-05-22T20:35:02.380Z",
+      "secure": false,
+      "httpOnly": true,
+      "path": "/"
+    },
+    "adminId": "6a0f502bcd0a39599a9ba187",
+    "adminUsername": "vansh",
     "adminEmail": "vansh@gmail.com"
+  },
+  "t5joIok-ZDUXYD0z57VoAlbhqgJeqIQn": {
+    "cookie": {
+      "originalMaxAge": 86400000,
+      "expires": "2026-05-22T20:47:01.246Z",
+      "secure": false,
+      "httpOnly": true,
+      "path": "/"
+    },
+    "studentRedirectTo": "/inquiry"
   }
 }

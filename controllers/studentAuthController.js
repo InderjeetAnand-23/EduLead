@@ -1,5 +1,6 @@
 const Student = require('../models/Student');
 const bcrypt = require('bcryptjs');
+const { sendEmail, buildWelcomeEmail } = require('../utils/sendEmail');
 
 // Render Student Register Page
 exports.getRegister = (req, res) => {
@@ -55,6 +56,17 @@ exports.postRegister = async (req, res) => {
     });
 
     await newStudent.save();
+
+    // Send welcome email (non-blocking — never crash registration if email fails)
+    try {
+      await sendEmail({
+        to: newStudent.email,
+        subject: 'Welcome to EduLead',
+        html: buildWelcomeEmail(newStudent.fullName)
+      });
+    } catch (emailErr) {
+      console.error('[EduLead Email] Welcome email failed (registration continues):', emailErr.message);
+    }
 
     // Auto-login after registration
     req.session.studentId = newStudent._id;

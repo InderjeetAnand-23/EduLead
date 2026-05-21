@@ -141,6 +141,67 @@ Admins **cannot** impersonate students.
    - `MONGO_URI` = MongoDB Atlas connection string
    - `SESSION_SECRET` = a long random secret
    - `PORT` = 5000
+   - `EMAIL_HOST` = `smtp.gmail.com`
+   - `EMAIL_PORT` = `587`
+   - `EMAIL_USER` = your Gmail address
+   - `EMAIL_PASS` = your Gmail App Password *(see below)*
+   - `EMAIL_FROM` = `EduLead <yourgmail@gmail.com>`
+   - `APP_URL` = your Render app URL (e.g. `https://edulead.onrender.com`)
 4. Build command: `npm install`
 5. Start command: `npm start`
 6. Run `node seed.js` once to create the admin account
+
+---
+
+## 📧 Email Notification System
+
+EduLead automatically sends HTML email notifications using **Nodemailer** for key admission events.
+
+### Emails Sent
+
+| Trigger | Subject | Recipient |
+|---------|---------|-----------|
+| Student registers | `Welcome to EduLead` | New student |
+| Student submits inquiry | `Admission Inquiry Received - EduLead` | Student |
+| Counsellor updates lead status | `Admission Status Updated - EduLead` | Student |
+
+### Environment Variables Required
+
+Add these to your `.env` file (copy from `.env.example`):
+
+```env
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=yourgmail@gmail.com
+EMAIL_PASS=your_google_app_password
+EMAIL_FROM=EduLead <yourgmail@gmail.com>
+
+# Optional: for email CTA links to point to the correct URL
+APP_URL=https://your-edulead-app.onrender.com
+```
+
+> ⚠️ **NEVER** commit your real `.env` file. It is already listed in `.gitignore`.
+
+### Gmail App Password Setup
+
+Standard Gmail passwords will **not** work with SMTP. You must create an **App Password**:
+
+1. Go to your Google Account → **Security**
+2. Enable **2-Step Verification** (required)
+3. Search for **"App passwords"** in the search bar
+4. Select App: **Mail** → Device: **Other** (type "EduLead")
+5. Click **Generate** — copy the 16-character password
+6. Paste it as `EMAIL_PASS` in your `.env` file
+
+### Fail-Safe Design
+
+- If `EMAIL_USER` or `EMAIL_PASS` are not configured, the system **skips** sending emails silently (logs a warning only).
+- If an email send fails for any reason (network error, wrong password, etc.), the app **continues normally** — registration, inquiry submission, and status updates are **never blocked**.
+- All email errors are logged to the console with the prefix `[EduLead Email]` for easy filtering.
+
+### Email Utility Location
+
+```
+utils/
+└── sendEmail.js     ← Nodemailer config + HTML templates (Welcome, Inquiry, Status Update)
+```

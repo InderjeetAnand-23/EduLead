@@ -1,5 +1,6 @@
 const Lead = require('../models/Lead');
 const Document = require('../models/Document');
+const { sendEmail, buildInquiryEmail, buildStatusUpdateEmail } = require('../utils/sendEmail');
 
 // 1. Render Landing Page
 exports.renderLanding = (req, res) => {
@@ -58,6 +59,18 @@ exports.submitInquiry = async (req, res) => {
     });
 
     await newLead.save();
+
+    // Send inquiry confirmation email (non-blocking)
+    try {
+      await sendEmail({
+        to: email,
+        subject: 'Admission Inquiry Received - EduLead',
+        html: buildInquiryEmail(fullName, courseInterested, newLead._id)
+      });
+    } catch (emailErr) {
+      console.error('[EduLead Email] Inquiry confirmation email failed (submission continues):', emailErr.message);
+    }
+
     res.redirect('/my-inquiry-status?success=Thank%20you!%20Your%20inquiry%20has%20been%20submitted%20successfully.');
   } catch (error) {
     console.error('Inquiry submission error:', error);
@@ -360,6 +373,17 @@ exports.updateLead = async (req, res) => {
       return res.redirect('/leads');
     }
 
+    // Send status update email if status changed (non-blocking)
+    try {
+      await sendEmail({
+        to: updatedLead.email,
+        subject: 'Admission Status Updated - EduLead',
+        html: buildStatusUpdateEmail(updatedLead.fullName, updatedLead.status, updatedLead.followUpDate, updatedLead.courseInterested)
+      });
+    } catch (emailErr) {
+      console.error('[EduLead Email] Status update email failed (lead update continues):', emailErr.message);
+    }
+
     req.session.success = `Lead "${fullName}" has been updated successfully.`;
     res.redirect(`/leads/${id}`);
   } catch (error) {
@@ -460,6 +484,17 @@ exports.updateStatus = async (req, res) => {
     lead.notes = lead.notes ? `${lead.notes}${timelineEvent}` : `Initial Note: ${timelineEvent}`;
 
     await lead.save();
+
+    // Send status update email to student (non-blocking)
+    try {
+      await sendEmail({
+        to: lead.email,
+        subject: 'Admission Status Updated - EduLead',
+        html: buildStatusUpdateEmail(lead.fullName, status, lead.followUpDate, lead.courseInterested)
+      });
+    } catch (emailErr) {
+      console.error('[EduLead Email] Status update email failed (status save continues):', emailErr.message);
+    }
 
     req.session.success = `Status updated successfully to "${status}".`;
     res.redirect(`/leads/${id}`);

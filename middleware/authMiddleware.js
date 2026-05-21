@@ -87,9 +87,9 @@ const globalLocals = (req, res, next) => {
   res.locals.admin = null; // Default
   res.locals.student = null; // Default
   
-  // Custom simple flash alerts from session
-  res.locals.success = req.session.success || null;
-  res.locals.error = req.session.error || null;
+  // Custom simple flash alerts from session or query parameters
+  res.locals.success = req.session.success || req.query.success || null;
+  res.locals.error = req.session.error || req.query.error || null;
   
   // Clear the messages so they don't persist on subsequent requests
   delete req.session.success;

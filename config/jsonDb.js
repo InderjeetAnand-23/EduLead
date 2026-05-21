@@ -5,6 +5,7 @@ const DATA_DIR = path.join(__dirname, '..', 'data');
 const LEADS_FILE = path.join(DATA_DIR, 'leads.json');
 const ADMINS_FILE = path.join(DATA_DIR, 'admins.json');
 const STUDENTS_FILE = path.join(DATA_DIR, 'students.json');
+const DOCUMENTS_FILE = path.join(DATA_DIR, 'documents.json');
 
 // Ensure data directory exists
 if (!fs.existsSync(DATA_DIR)) {
@@ -84,7 +85,7 @@ class QueryChain {
       let valB = b[key];
 
       // Handle dates
-      if (key === 'createdAt' || key === 'followUpDate') {
+      if (key === 'createdAt' || key === 'followUpDate' || key === 'uploadedAt') {
         valA = valA ? new Date(valA).getTime() : 0;
         valB = valB ? new Date(valB).getTime() : 0;
       }
@@ -210,8 +211,14 @@ class Lead {
         const sortField = Object.keys(stage.$sort)[0];
         const sortOrder = stage.$sort[sortField];
         data.sort((a, b) => {
-          if (a[sortField] < b[sortField]) return sortOrder;
-          if (a[sortField] > b[sortField]) return -sortOrder;
+          let valA = a[sortField];
+          let valB = b[sortField];
+          if (sortField === 'createdAt' || sortField === 'followUpDate' || sortField === 'uploadedAt') {
+            valA = valA ? new Date(valA).getTime() : 0;
+            valB = valB ? new Date(valB).getTime() : 0;
+          }
+          if (valA < valB) return sortOrder === 1 ? -1 : 1;
+          if (valA > valB) return sortOrder === 1 ? 1 : -1;
           return 0;
         });
       }
@@ -320,13 +327,102 @@ class Student {
   }
 }
 
+class DocumentInstance {
+  constructor(data) {
+    Object.assign(this, data);
+  }
+
+  async save() {
+    const data = readData(DOCUMENTS_FILE);
+    const index = data.findIndex(item => item._id === this._id);
+    this.uploadedAt = this.uploadedAt || new Date().toISOString();
+    this.status = this.status || 'uploaded';
+    this.adminNote = this.adminNote || '';
+
+    if (index !== -1) {
+      data[index] = { ...this };
+    } else {
+      this._id = this._id || Math.random().toString(36).substring(2, 9);
+      data.push({ ...this });
+    }
+    writeData(DOCUMENTS_FILE, data);
+    return this;
+  }
+}
+
+class Document {
+  constructor(data) {
+    return new DocumentInstance(data);
+  }
+
+  static find(query = {}) {
+    const data = readData(DOCUMENTS_FILE);
+    const filtered = data.filter(item => matchesQuery(item, query));
+    return new QueryChain(filtered);
+  }
+
+  static async findById(id) {
+    const data = readData(DOCUMENTS_FILE);
+    const found = data.find(item => item._id === id.toString());
+    if (!found) return null;
+    return new DocumentInstance(found);
+  }
+
+  static async findOne(query) {
+    const data = readData(DOCUMENTS_FILE);
+    const found = data.find(item => matchesQuery(item, query));
+    if (!found) return null;
+    return new DocumentInstance(found);
+  }
+
+  static async findByIdAndUpdate(id, updateData, options = {}) {
+    const data = readData(DOCUMENTS_FILE);
+    const index = data.findIndex(item => item._id === id.toString());
+    if (index === -1) return null;
+
+    const updated = { ...data[index], ...updateData };
+    data[index] = updated;
+    writeData(DOCUMENTS_FILE, data);
+    return new DocumentInstance(updated);
+  }
+
+  static async deleteOne(query = {}) {
+    const data = readData(DOCUMENTS_FILE);
+    const index = data.findIndex(item => matchesQuery(item, query));
+    if (index === -1) return { deletedCount: 0 };
+
+    data.splice(index, 1);
+    writeData(DOCUMENTS_FILE, data);
+    return { deletedCount: 1 };
+  }
+
+  static async findByIdAndDelete(id) {
+    const data = readData(DOCUMENTS_FILE);
+    const index = data.findIndex(item => item._id === id.toString());
+    if (index === -1) return null;
+
+    const deleted = data[index];
+    data.splice(index, 1);
+    writeData(DOCUMENTS_FILE, data);
+    return deleted;
+  }
+
+  static async countDocuments(query = {}) {
+    const data = readData(DOCUMENTS_FILE);
+    const filtered = data.filter(item => matchesQuery(item, query));
+    return filtered.length;
+  }
+}
+
 module.exports = {
   Lead,
   Admin,
   Student,
+  Document,
   readData,
   writeData,
   LEADS_FILE,
   ADMINS_FILE,
-  STUDENTS_FILE
+  STUDENTS_FILE,
+  DOCUMENTS_FILE
 };
